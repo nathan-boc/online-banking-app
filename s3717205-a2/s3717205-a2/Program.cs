@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using MvcBank.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services
+builder.Services.AddDbContext<MvcBankContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBankContext")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
