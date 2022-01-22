@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,6 +9,7 @@
 
 
   <ItemGroup>
+    <None Include="Data\Annotations\AustralianStateAttribute.cs" />
     <None Include="Data\MvcBankContext.cs" />
     <None Include="Data\SeedData.cs" />
   </ItemGroup>
