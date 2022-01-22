@@ -23,10 +23,10 @@ public class Customer
 	public string State { get; set; }
 
 	// Regex to match postcodes 0000 - 9999
-	[RegularExpression(@"^[0-9]{4}$")]
+	[RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Must be a valid postcode between 0000 - 9999.")]
 	public string Postcode { get; set; }
 
 	// Regex to match phone number format '04XX XXX XXX'
-	[RegularExpression(@"^04[0-9]{2} [0-9]{3} [0-9]{3}$")]
+	[RegularExpression(@"^04[0-9]{2} [0-9]{3} [0-9]{3}$", ErrorMessage = "Must be in the format '04XX XXX XXX'.")]
 	public string Mobile { get; set; }
 }
