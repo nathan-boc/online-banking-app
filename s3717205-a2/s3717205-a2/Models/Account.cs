@@ -1,8 +1,10 @@
-﻿namespace MvcBank.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MvcBank.Models;
 
 public class Account
 {
-	// TODO : ensure this is set to the primary key
+	[Key]
 	public int AccountNumber { get; set; }
 	public char AccountType { get; set; }
 	public int CustomerID { get; set; }
