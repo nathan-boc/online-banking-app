@@ -7,8 +7,10 @@
     <RootNamespace>s3717205_a2</RootNamespace>
   </PropertyGroup>
 
+
   <ItemGroup>
     <None Include="Data\MvcBankContext.cs" />
+    <None Include="Data\SeedData.cs" />
   </ItemGroup>
 
   <ItemGroup>
