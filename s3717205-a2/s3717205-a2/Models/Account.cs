@@ -6,7 +6,7 @@ namespace MvcBank.Models;
 
 public class Account
 {
-	[Key]
+	[Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
 	[MaxLength(4), MinLength(4)]
 	public int AccountNumber { get; set; }
 

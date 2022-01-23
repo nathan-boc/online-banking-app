@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcBank.Models;
 
 public class Customer 
 {
 	[MaxLength(4), MinLength(4)]
+	[DatabaseGenerated(DatabaseGeneratedOption.None)]
 	public int CustomerID { get; set; }
 
 	[Required, MaxLength(50)]
