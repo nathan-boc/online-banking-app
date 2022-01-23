@@ -16,6 +16,10 @@ public class Account
 	public int CustomerID { get; set; }
 	public virtual Customer Customer { get; set; }
 
+	[Required]
+	[DataType(DataType.Currency)]
+	public decimal Balance { get; set; }
+
 	[InverseProperty(nameof(Transaction.Account))]
 	public virtual List<Transaction> Transactions { get; set; }
 
