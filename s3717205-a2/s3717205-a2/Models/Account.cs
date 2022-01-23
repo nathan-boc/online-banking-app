@@ -5,8 +5,8 @@ namespace MvcBank.Models;
 
 public class Account
 {
+	[StringLength(4, MinimumLength = 4)]
 	[Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-	[MaxLength(4), MinLength(4)]
 	public int AccountNumber { get; set; }
 
 	[Required]
@@ -17,9 +17,10 @@ public class Account
 	public virtual Customer Customer { get; set; }
 
 	[Required]
-	[DataType(DataType.Currency)]
+	[DataType(DataType.Currency), Column(TypeName = "money")]
 	public decimal Balance { get; set; }
 
+	// Specifies 'Account' property to be the property the join is performed on (rather than DestinationAccount)
 	[InverseProperty(nameof(Transaction.Account))]
 	public virtual List<Transaction> Transactions { get; set; }
 

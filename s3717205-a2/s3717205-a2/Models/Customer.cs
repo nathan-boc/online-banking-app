@@ -5,20 +5,20 @@ namespace MvcBank.Models;
 
 public class Customer 
 {
-	[MaxLength(4), MinLength(4)]
+	[StringLength(4, MinimumLength = 4)]
 	[DatabaseGenerated(DatabaseGeneratedOption.None)]
 	public int CustomerID { get; set; }
 
-	[Required, MaxLength(50)]
+	[Required, StringLength(50)]
 	public string Name { get; set; }
 
-	[MaxLength(11)]
+	[StringLength(11)]
 	public string TFN { get; set; }
 
-	[MaxLength(50)]
+	[StringLength(50)]
 	public string Address { get; set; }
 
-	[MaxLength(40)]
+	[StringLength(40)]
 	public string Suburb { get; set; }
 
 	[AustralianState]

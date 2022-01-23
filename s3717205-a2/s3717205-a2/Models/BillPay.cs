@@ -14,12 +14,12 @@ public class BillPay
 	public int PayeeID { get; set; }
 	public virtual Payee Payee { get; set; }
 
-	[Required]
-	[DataType(DataType.Currency), Range(0.0, Double.MaxValue)]
+	[Required, Range(0.0, Double.MaxValue)]
+	[DataType(DataType.Currency), Column(TypeName = "money")]
 	public decimal Amount { get; set; }
 
 	[Required]
-	public DateTime ScheduleTImeUtc { get; set; }
+	public DateTime ScheduleTimeUtc { get; set; }
 
 	[Required]
 	[RegularExpression("^[OM]{1}", ErrorMessage = "Must be either 'O' for One-off or 'M' for Monthly.")]
