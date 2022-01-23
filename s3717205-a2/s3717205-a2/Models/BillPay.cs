@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcBank.Models;
 
@@ -6,13 +7,12 @@ public class BillPay
 {
 	public int BillPayID { get; set; }
 
-	[Required]
-	// TODO : Add Account foreign key annotation here
+	[ForeignKey(nameof(Account))]
 	public int AccountNumber { get; set; }
+	public virtual Account Account { get; set; }
 
-	[Required]
-	// TODO : Add Payee foreign key annotation here
 	public int PayeeID { get; set; }
+	public virtual Payee Payee { get; set; }
 
 	[Required]
 	[DataType(DataType.Currency), Range(0.0, Double.MaxValue)]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcBank.Models;
 
@@ -10,12 +11,13 @@ public class Transaction
 	[RegularExpression("^[DWTSB]{1}", ErrorMessage = "Must be a valid transaction type (D/W/T/S/B).")]
 	public char TransactionType { get; set; }
 
-	[Required]
-	// TODO : Add Account foreign key annotation here
+	[ForeignKey(nameof(Account))]
 	public int AccountNumber { get; set; }
+	public virtual Account Account { get; set; }
 
-	// TODO : Add Account foreign key annotation here
-	public int DestinationAccountNumber { get; set; }
+	[ForeignKey(nameof(DestinationAccount))]
+	public int? DestinationAccountNumber { get; set; }
+	public virtual Account DestinationAccount { get; set; }
 
 	[Required]
 	[DataType(DataType.Currency), Range(0.0, Double.MaxValue)]

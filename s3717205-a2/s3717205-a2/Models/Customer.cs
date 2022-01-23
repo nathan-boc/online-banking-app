@@ -31,4 +31,8 @@ public class Customer
 	// Regex to match phone number format '04XX XXX XXX'
 	[RegularExpression(@"^04[0-9]{2} [0-9]{3} [0-9]{3}$", ErrorMessage = "Must be in the format '04XX XXX XXX'.")]
 	public string Mobile { get; set; }
+
+	public virtual Login Login { get; set; }
+
+	public virtual List<Account> Accounts { get; set; }
 }

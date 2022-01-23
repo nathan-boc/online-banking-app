@@ -31,4 +31,6 @@ public class Payee
 	// Regex to match phone number format '(0X) XXXX XXXX'
 	[RegularExpression(@"^(0[0-9]{1}) [0-9]{4} [0-9]{4}$", ErrorMessage = "Must be in the format '(0X) XXXX XXXX'.")]
 	public string Phone { get; set; }
+
+	public virtual List<BillPay> BillPays { get; set; }
 }
