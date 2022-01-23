@@ -12,7 +12,7 @@ using MvcBank.Data;
 namespace s3717205_a2.Migrations
 {
     [DbContext(typeof(MvcBankContext))]
-    [Migration("20220122020029_InitialCreate")]
+    [Migration("20220123064657_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,19 +27,22 @@ namespace s3717205_a2.Migrations
             modelBuilder.Entity("MvcBank.Models.Account", b =>
                 {
                     b.Property<int>("AccountNumber")
-                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(4)
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"), 1L, 1);
 
                     b.Property<string>("AccountType")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("money");
+
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
                     b.HasKey("AccountNumber");
+
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Account");
                 });
@@ -56,7 +59,7 @@ namespace s3717205_a2.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<int>("PayeeID")
                         .HasColumnType("int");
@@ -65,10 +68,14 @@ namespace s3717205_a2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
-                    b.Property<DateTime>("ScheduleTImeUtc")
+                    b.Property<DateTime>("ScheduleTimeUtc")
                         .HasColumnType("datetime2");
 
                     b.HasKey("BillPayID");
+
+                    b.HasIndex("AccountNumber");
+
+                    b.HasIndex("PayeeID");
 
                     b.ToTable("BillPay");
                 });
@@ -76,19 +83,20 @@ namespace s3717205_a2.Migrations
             modelBuilder.Entity("MvcBank.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
-                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(4)
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"), 1L, 1);
-
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Mobile")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(max)");
@@ -97,10 +105,12 @@ namespace s3717205_a2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Suburb")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("TFN")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.HasKey("CustomerID");
 
@@ -110,15 +120,21 @@ namespace s3717205_a2.Migrations
             modelBuilder.Entity("MvcBank.Models.Login", b =>
                 {
                     b.Property<string>("LoginID")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("LoginID");
+
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
 
                     b.ToTable("Login");
                 });
@@ -132,22 +148,31 @@ namespace s3717205_a2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PayeeID"), 1L, 1);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Postcode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Suburb")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("PayeeID");
 
@@ -166,12 +191,13 @@ namespace s3717205_a2.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("DestinationAccountNumber")
+                    b.Property<int?>("DestinationAccountNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TransactionTimeUtc")
@@ -183,7 +209,88 @@ namespace s3717205_a2.Migrations
 
                     b.HasKey("TransactionID");
 
+                    b.HasIndex("AccountNumber");
+
+                    b.HasIndex("DestinationAccountNumber");
+
                     b.ToTable("Transaction");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.Account", b =>
+                {
+                    b.HasOne("MvcBank.Models.Customer", "Customer")
+                        .WithMany("Accounts")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.BillPay", b =>
+                {
+                    b.HasOne("MvcBank.Models.Account", "Account")
+                        .WithMany("BillPays")
+                        .HasForeignKey("AccountNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MvcBank.Models.Payee", "Payee")
+                        .WithMany("BillPays")
+                        .HasForeignKey("PayeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Payee");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.Login", b =>
+                {
+                    b.HasOne("MvcBank.Models.Customer", "Customer")
+                        .WithOne("Login")
+                        .HasForeignKey("MvcBank.Models.Login", "CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.Transaction", b =>
+                {
+                    b.HasOne("MvcBank.Models.Account", "Account")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AccountNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MvcBank.Models.Account", "DestinationAccount")
+                        .WithMany()
+                        .HasForeignKey("DestinationAccountNumber");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("DestinationAccount");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.Account", b =>
+                {
+                    b.Navigation("BillPays");
+
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.Customer", b =>
+                {
+                    b.Navigation("Accounts");
+
+                    b.Navigation("Login");
+                });
+
+            modelBuilder.Entity("MvcBank.Models.Payee", b =>
+                {
+                    b.Navigation("BillPays");
                 });
 #pragma warning restore 612, 618
         }
