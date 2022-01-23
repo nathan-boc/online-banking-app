@@ -42,7 +42,7 @@ namespace s3717205_a2.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("Account");
+                    b.ToTable("Account", (string)null);
 
                     b.HasCheckConstraint("CH_Account_AccountNumber", "len(AccountNumber) = 4");
 
@@ -81,7 +81,7 @@ namespace s3717205_a2.Migrations
 
                     b.HasIndex("PayeeID");
 
-                    b.ToTable("BillPay");
+                    b.ToTable("BillPay", (string)null);
 
                     b.HasCheckConstraint("CH_BillPay_Amount", "Amount > 0");
 
@@ -122,7 +122,7 @@ namespace s3717205_a2.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
 
                     b.HasCheckConstraint("CH_Customer_CustomerID", "len(CustomerID) = 4");
 
@@ -148,7 +148,7 @@ namespace s3717205_a2.Migrations
                     b.HasIndex("CustomerID")
                         .IsUnique();
 
-                    b.ToTable("Login");
+                    b.ToTable("Login", (string)null);
 
                     b.HasCheckConstraint("CH_Login_LoginID", "len(LoginID) = 8");
 
@@ -192,7 +192,7 @@ namespace s3717205_a2.Migrations
 
                     b.HasKey("PayeeID");
 
-                    b.ToTable("Payee");
+                    b.ToTable("Payee", (string)null);
 
                     b.HasCheckConstraint("CH_Payee_Address", "len(Address) <= 50");
 
@@ -237,7 +237,7 @@ namespace s3717205_a2.Migrations
 
                     b.HasIndex("DestinationAccountNumber");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transaction", (string)null);
 
                     b.HasCheckConstraint("CH_Transaction_Amount", "Amount > 0");
 

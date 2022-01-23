@@ -10,7 +10,7 @@ public class DecimalPointsAttribute : ValidationAttribute
     {
 		decimal decValue = (decimal) value;
 
-		if(decValue == Math.Round(decValue, Decimals) {
+		if(decValue == Math.Round(decValue, Decimals)) {
 			return true;
         }
 
