@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcBank.Data;
 
@@ -11,9 +12,10 @@ using MvcBank.Data;
 namespace s3717205_a2.Migrations
 {
     [DbContext(typeof(MvcBankContext))]
-    partial class MvcBankContextModelSnapshot : ModelSnapshot
+    [Migration("20220123075115_AddCheckConstraints")]
+    partial class AddCheckConstraints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
