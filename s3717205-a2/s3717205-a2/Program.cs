@@ -19,7 +19,7 @@ using(var scope = app.Services.CreateScope())
     try
     {
         // fix here
-        SeedData.Initialise(services);
+        SeedData.Initialise(services, builder.Configuration.GetConnectionString("RestApiUrl"));
     }
     catch(Exception ex)
     {

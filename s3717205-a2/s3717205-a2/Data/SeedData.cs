@@ -1,10 +1,13 @@
-﻿using MvcBank.Models;
+﻿using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
+
+using MvcBank.Models;
 
 namespace MvcBank.Data;
 
 public static class SeedData
 {
-	public static void Initialise(IServiceProvider serviceProvider)
+	public static void Initialise(IServiceProvider serviceProvider, string url)
 	{
 		var context = serviceProvider.GetRequiredService<MvcBankContext>();
 
@@ -13,10 +16,37 @@ public static class SeedData
 			return;
 
 		else
-			context.Customer.AddRange(
-				// Add customer data here
-				);
-
+			context.Customer.AddRange(DeserialiseJson(url));
 			context.SaveChanges();
+	}
+
+	private static List<Customer> DeserialiseJson(string url)
+    {
+		HttpClient client = new HttpClient();
+
+		string jsonData = client.GetStringAsync(url).Result;
+
+		List<Customer> users = null;
+
+		try
+		{
+			// Deserialize JSON data into list of Customer objects
+			users = JsonConvert.DeserializeObject<List<Customer>>(jsonData, new JsonSerializerSettings
+			{
+				DateFormatString = "dd/MM/yyyy"
+			});
+
+			// All transactions from JSON set as deposit type
+			foreach (Customer customer in users)
+				foreach (Account account in customer.Accounts)
+					foreach (Transaction transaction in account.Transactions)
+						transaction.TransactionType = 'D';
+		}
+		catch(InvalidDataException ex)
+		{
+			Console.WriteLine("Error: " + ex.ToString());
+		}
+
+		return users;
 	}
 }
