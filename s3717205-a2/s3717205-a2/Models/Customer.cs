@@ -4,7 +4,7 @@ namespace MvcBank.Models;
 
 public class Customer 
 {
-	[Required, MaxLength(4), MinLength(4)]
+	[MaxLength(4), MinLength(4)]
 	public int CustomerID { get; set; }
 
 	[Required, MaxLength(50)]

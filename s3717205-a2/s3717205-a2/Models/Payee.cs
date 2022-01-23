@@ -4,7 +4,6 @@ namespace MvcBank.Models;
 
 public class Payee
 {
-	[Required]
 	public int PayeeID { get; set; }
 
 	[Required]

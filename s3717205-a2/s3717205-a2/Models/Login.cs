@@ -4,7 +4,6 @@ namespace MvcBank.Models;
 
 public class Login 
 {
-	[Required]
 	[MaxLength(8), MinLength(8)]
 	public string LoginID { get; set; }
 

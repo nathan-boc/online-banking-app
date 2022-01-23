@@ -4,7 +4,6 @@ namespace MvcBank.Models;
 
 public class Transaction 
 {
-	[Required]
 	public int TransactionID { get; set; }
 
 	[Required]

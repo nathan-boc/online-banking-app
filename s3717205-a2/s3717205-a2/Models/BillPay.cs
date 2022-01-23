@@ -4,7 +4,6 @@ namespace MvcBank.Models;
 
 public class BillPay 
 {
-	[Required]
 	public int BillPayID { get; set; }
 
 	[Required]
