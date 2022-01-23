@@ -18,7 +18,7 @@ public class Transaction
 	public int? DestinationAccountNumber { get; set; }
 	public virtual Account DestinationAccount { get; set; }
 
-	[Required, Range(0.0, Double.MaxValue)]
+	[Required, GreaterThan(0), DecimalPoints(2)]
 	[DataType(DataType.Currency), Column(TypeName = "money")]
 	public decimal Amount { get; set; }
 

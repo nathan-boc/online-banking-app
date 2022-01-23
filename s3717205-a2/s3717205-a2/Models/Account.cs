@@ -16,7 +16,7 @@ public class Account
 	public int CustomerID { get; set; }
 	public virtual Customer Customer { get; set; }
 
-	[Required]
+	[Required, Range(0.0, Double.MaxValue), DecimalPoints(2)]
 	[DataType(DataType.Currency), Column(TypeName = "money")]
 	public decimal Balance { get; set; }
 

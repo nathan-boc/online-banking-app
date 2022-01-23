@@ -14,7 +14,7 @@ public class BillPay
 	public int PayeeID { get; set; }
 	public virtual Payee Payee { get; set; }
 
-	[Required, Range(0.0, Double.MaxValue)]
+	[Required, GreaterThan(0), DecimalPoints(2)]
 	[DataType(DataType.Currency), Column(TypeName = "money")]
 	public decimal Amount { get; set; }
 

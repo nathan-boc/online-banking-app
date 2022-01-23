@@ -11,7 +11,7 @@ public class Customer
 
 	[Required, StringLength(50)]
 	public string Name { get; set; }
-
+	
 	[StringLength(11)]
 	public string TFN { get; set; }
 
