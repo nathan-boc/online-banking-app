@@ -18,7 +18,6 @@ using(var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // fix here
         SeedData.Initialise(services, builder.Configuration.GetConnectionString("RestApiUrl"));
     }
     catch(Exception ex)
@@ -27,6 +26,15 @@ using(var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occured seeding the database.");
     }
 }
+
+// Store session data in web server memory
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Toggle session cookies on
+    options.Cookie.IsEssential = true;
+});
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -38,6 +46,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
