@@ -10,6 +10,14 @@ builder.Services.AddDbContext<MvcBankContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Store session data in web server memory
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Toggle session cookies on
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Seed data
@@ -26,15 +34,6 @@ using(var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occured seeding the database.");
     }
 }
-
-// Store session data in web server memory
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    // Toggle session cookies on
-    options.Cookie.IsEssential = true;
-});
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
