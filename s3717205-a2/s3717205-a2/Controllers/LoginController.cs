@@ -30,8 +30,18 @@ namespace s3717205_a2.Controllers
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
             HttpContext.Session.SetString(nameof(Customer.Name), login.Customer.Name);
 
-            // Successful login passes user to the index page of CustomerController
+            // Successful login directs user to the index page of CustomerController
             return RedirectToAction("Index", "Customer");
+        }
+
+        [Route("LogoutUser")]
+        public IActionResult Logout()
+        {
+            // Logout user by clearing session data
+            HttpContext.Session.Clear();
+
+            // Logout directs user to home page
+            return RedirectToAction("Index", "Home");
         }
     }
 }
