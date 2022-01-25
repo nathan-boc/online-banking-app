@@ -10,30 +10,34 @@ namespace s3717205_a2.Controllers
         
 
         // GET: HomeController1/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Deposit()
         {
             return View();
         }
 
         // GET: HomeController1/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Withdraw()
         {
             return View();
         }
 
-        // POST: HomeController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // GET: HomeController1/Edit/5
+        public ActionResult Transfer()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
+
+        // GET: HomeController1/Edit/5
+        public ActionResult MyStatements()
+        {
+            return View();
+        }
+
+        // GET: HomeController1/Edit/5
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
     }
 }
