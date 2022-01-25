@@ -18,6 +18,7 @@ namespace s3717205_a2.Controllers
         public async Task<IActionResult> Login(string loginID, string password)
         {
             // Retrieve Login object from database using the given LoginID
+            // TODO : remove lazy loading here - swap to eager loading
             var login = await _context.Login.FindAsync(loginID);
 
             // Checks if password field is empty
