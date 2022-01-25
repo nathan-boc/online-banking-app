@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MvcBank.Data;
 using MvcBank.Models;
 using SimpleHashing;
@@ -17,12 +18,11 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string loginID, string password)
         {
-            // Retrieve Login object from database using the given LoginID
-            // TODO : remove lazy loading here - swap to eager loading
-            var login = await _context.Login.FindAsync(loginID);
+            // Use eager loading to retrieve Login data from database
+            var login = await _context.Login.FirstOrDefaultAsync(login => login.LoginID == loginID);
 
             // Checks if password field is empty
-            if(string.IsNullOrEmpty(password) == true)
+            if (string.IsNullOrEmpty(password) == true)
             {
                 ModelState.AddModelError("EmptyPassword", "The password field is blank.");
                 return View(new Login { LoginID = loginID });
@@ -36,7 +36,6 @@ namespace s3717205_a2.Controllers
 
             // Login customer by adding details into session data
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
-            HttpContext.Session.SetString(nameof(Customer.Name), login.Customer.Name);
 
             // Successful login directs user to the index page of CustomerController
             return RedirectToAction("Index", "Customer");
