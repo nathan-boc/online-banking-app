@@ -16,7 +16,7 @@ namespace s3717205_a2.Controllers
 
         public CustomerController(MvcBankContext context) => _context = context;
 
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Index()
         {
             // Loads current customers' data using
             var customer = await _context.Customer.FindAsync(CustomerID);
