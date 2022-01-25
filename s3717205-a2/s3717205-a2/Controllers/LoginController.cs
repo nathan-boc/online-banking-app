@@ -38,7 +38,7 @@ namespace s3717205_a2.Controllers
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
 
             // Successful login directs user to the index page of CustomerController
-            return RedirectToAction("Dashboard", "Customer");
+            return RedirectToAction("Index", "Customer");
         }
 
         [Route("LogoutUser")]
