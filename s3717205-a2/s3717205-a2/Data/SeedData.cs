@@ -22,9 +22,7 @@ public static class SeedData
 
 	private static List<Customer> DeserialiseJson(string url)
     {
-		HttpClient client = new HttpClient();
-
-		string jsonData = client.GetStringAsync(url).Result;
+		string jsonData = new HttpClient().GetStringAsync(url).Result;
 
 		List<Customer> users = null;
 

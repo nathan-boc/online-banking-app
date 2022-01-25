@@ -1,13 +1,26 @@
-using Microsoft.EntityFrameworkCore;
 using MvcBank.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
-builder.Services.AddDbContext<MvcBankContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBankContext")));
+builder.Services.AddDbContext<MvcBankContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBankContext"));
 
-// Add services to the container.
+    // Enable lazy loading
+    options.UseLazyLoadingProxies();
+});
+
+// Store session data in web server memory
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Toggle session cookies on
+    options.Cookie.IsEssential = true;
+});
+
+// Add services to the container
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -18,7 +31,6 @@ using(var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // fix here
         SeedData.Initialise(services, builder.Configuration.GetConnectionString("RestApiUrl"));
     }
     catch(Exception ex)
@@ -28,16 +40,19 @@ using(var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

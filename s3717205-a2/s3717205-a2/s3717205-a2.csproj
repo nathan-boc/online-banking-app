@@ -13,15 +13,19 @@
     <None Include="Data\Annotations\AustralianStateAttribute.cs" />
     <None Include="Data\MvcBankContext.cs" />
     <None Include="Data\SeedData.cs" />
+    <None Include="Filters\AuthorizeCustomerAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SimpleHashing" Version="2.0.0.1" />
   </ItemGroup>
 
   <ItemGroup>
