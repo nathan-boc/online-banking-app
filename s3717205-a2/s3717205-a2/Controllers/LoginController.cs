@@ -20,8 +20,14 @@ namespace s3717205_a2.Controllers
             // Retrieve Login object from database using the given LoginID
             var login = await _context.Login.FindAsync(loginID);
 
-            // Checks if LoginID or password fields are empty or if password matches hashed value from database
-            if(login == null || string.IsNullOrEmpty(password) == true || PBKDF2.Verify(login.PasswordHash, password) == false)
+            // Checks if password field is empty
+            if(string.IsNullOrEmpty(password) == true)
+            {
+                ModelState.AddModelError("EmptyPassword", "The password field is blank.");
+                return View(new Login { LoginID = loginID });
+            }
+            // Checks if LoginID is empty or if password matches hashed value from database
+            else if (login == null || PBKDF2.Verify(login.PasswordHash, password) == false)
             {
                 ModelState.AddModelError("LoginFailed", "Invalid username or password, please try again.");
                 return View(new Login { LoginID = loginID });
