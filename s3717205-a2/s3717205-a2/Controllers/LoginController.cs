@@ -5,6 +5,7 @@ using SimpleHashing;
 
 namespace s3717205_a2.Controllers
 {
+    [Route("/Mcba/SecureLogin")]
     public class LoginController : Controller
     {
         private readonly MvcBankContext _context;
@@ -20,7 +21,7 @@ namespace s3717205_a2.Controllers
             var login = await _context.Login.FindAsync(loginID);
 
             // Checks if LoginID or password fields are empty or if password matches hashed value from database
-            if(login == null || string.IsNullOrEmpty(password) || PBKDF2.Verify(login.PasswordHash, password) == false)
+            if(login == null || string.IsNullOrEmpty(password) == true || PBKDF2.Verify(login.PasswordHash, password) == false)
             {
                 ModelState.AddModelError("LoginFailed", "Invalid username or password, please try again.");
                 return View(new Login { LoginID = loginID });
