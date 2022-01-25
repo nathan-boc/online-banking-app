@@ -44,7 +44,7 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
-        public IActionResult Profile()
+        public IActionResult MyProfile()
         {
             return View();
         }
