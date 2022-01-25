@@ -1,9 +1,12 @@
-﻿using MvcBank.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using MvcBank.Data;
 using MvcBank.Models;
-using Microsoft.AspNetCore.Mvc;
+using MvcBank.Filters;
 
 namespace s3717205_a2.Controllers
 {
+    [AuthorizeCustomer]
     public class CustomerController : Controller
     {
         private readonly MvcBankContext _context;
