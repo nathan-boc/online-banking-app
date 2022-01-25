@@ -16,8 +16,7 @@ namespace s3717205_a2.Controllers
 
         public CustomerController(MvcBankContext context) => _context = context;
 
-        // GET: HomeController1
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Dashboard()
         {
             // Loads current customers' data using
             var customer = await _context.Customer.FindAsync(CustomerID);
@@ -25,35 +24,29 @@ namespace s3717205_a2.Controllers
             return View(customer);
         }
 
-        // GET: HomeController1/Details/5
         public IActionResult Deposit()
         {
             return View();
         }
 
-        // GET: HomeController1/Edit/5
         public IActionResult Withdraw()
         {
             return View();
         }
 
-        // GET: HomeController1/Edit/5
         public IActionResult Transfer()
         {
             return View();
         }
 
-        // GET: HomeController1/Edit/5
         public IActionResult MyStatements()
         {
             return View();
         }
 
-        // GET: HomeController1/Edit/5
         public IActionResult Profile()
         {
             return View();
         }
-
     }
 }
