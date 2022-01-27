@@ -1,4 +1,4 @@
-﻿@model Customer
+﻿@model Account
 
 @{
     ViewData["Title"] = "Deposit";
@@ -7,9 +7,33 @@
 <h1>Deposit Page</h1>
 
 <div>
-    <!--TODO : Deposit form, account dropdown list amount to deposit-->
+    <hr />
 
-    <!--form submit is greyed out until depositing a valid amount-->
+    <form asp-action="Deposit">
+
+        <div class="form-group">
+            <label asp-for="AccountNumber" class="control-label"></label>
+            <input asp-for="AccountNumber" class="form-control" />
+            <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            @Html.ValidationMessage("InvalidAccount", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="Amount" class="control-label">Amount</label>
+            <input for="Amount" name="Amount" class="form-control" value="@ViewBag.Amount?.ToString("0.00")"
+            data-val="true" data-val-number="Must give a valid deposit amount."
+                    data-val-required="A deposit amount is required." />
+            @Html.ValidationMessage("NegativeAmount", new { @class = "text-danger" })
+            @Html.ValidationMessage("TooManyDecimals", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Deposit" class"btn btn-primary" />
+        </div>
+
+    </form>
+
+    <!--TODO : Deposit form, account dropdown list amount to deposit-->
 
     <!-- required to make a viewmodel for this?-->
 </div>
