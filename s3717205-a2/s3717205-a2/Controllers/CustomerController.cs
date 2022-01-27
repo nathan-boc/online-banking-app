@@ -74,10 +74,20 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
-        public IActionResult MyStatements()
+        public async Task<IActionResult> MyStatements()
         {
-            return View();
+            var customer = await _context.Customer.FindAsync(CustomerID);
+
+            return View(customer);
+
         }
+
+        //public async Task<IActionResult> MyStatements(int accountNumber)
+        //{
+        //    var account = await _context.Account.FindAsync(accountNumber);
+
+        //    return View();
+        //}
 
         public IActionResult MyProfile()
         {
