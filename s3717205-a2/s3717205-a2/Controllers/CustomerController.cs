@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using MvcBank.Data;
 using MvcBank.Models;
@@ -74,11 +75,27 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MyStatements()
+        public async Task<IActionResult> MyStatements(int accountNumber, int pageNumber)
         {
-            var customer = await _context.Customer.FindAsync(CustomerID);
+            const int pageSize = 4;
 
-            return View(customer);
+            // Looks for transactions that match the selected account number, ordered by transaction date
+            var transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+                
+                // Retrieves only 4 transactions at a time
+                .Skip(pageSize * pageNumber).Take(pageSize).ToListAsync();
+
+            // Return to page 0 if reaching out of bounds
+            if(transactionList == null)
+            {
+                return RedirectToAction(nameof(MyStatements), new { accountNumber = accountNumber, pageNumber = 0 });
+            }
+
+            // TODO : make sure view prints out datetime converted to local time
+            // TODO : view to iterate through pages using buttons
+
+            // Passes 4 transactions as a list of transactions
+            return View(transactionList);
 
         }
 
