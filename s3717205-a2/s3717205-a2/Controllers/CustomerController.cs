@@ -75,36 +75,38 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MyStatements(int accountNumber, int pageNumber)
+        [HttpPost]
+        public async Task<IActionResult> MyStatements(int accountNumber, int page)
         {
             const int pageSize = 4;
 
             // Looks for transactions that match the selected account number, ordered by transaction date
-            var transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+            List<Transaction> transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
                 
                 // Retrieves only 4 transactions at a time
-                .Skip(pageSize * pageNumber).Take(pageSize).ToListAsync();
+                .Skip(pageSize * page).Take(pageSize).ToListAsync();
+
+            var accounts = await _context.Account.Where(x => x.CustomerID == CustomerID).ToListAsync();
+            ViewBag.Accounts = accounts;
 
             // Return to page 0 if reaching out of bounds
-            if(transactionList == null)
+            if (transactionList == null)
             {
-                return RedirectToAction(nameof(MyStatements), new { accountNumber = accountNumber, pageNumber = 0 });
+                ModelState.AddModelError("OutOfBounds", "Invalid page number.");
+                return RedirectToAction(nameof(MyStatements), new { accountNumber = accountNumber, page = 0 });
             }
-
-            // TODO : make sure view prints out datetime converted to local time
-            // TODO : view to iterate through pages using buttons
 
             // Passes 4 transactions as a list of transactions
             return View(transactionList);
-
         }
 
-        //public async Task<IActionResult> MyStatements(int accountNumber)
-        //{
-        //    var account = await _context.Account.FindAsync(accountNumber);
+        public async Task<IActionResult> MyStatements()
+        {
+            var accounts = await _context.Account.Where(x => x.CustomerID == CustomerID).ToListAsync();
 
-        //    return View();
-        //}
+            ViewBag.Accounts = accounts;
+            return View();
+        }
 
         public IActionResult MyProfile()
         {
