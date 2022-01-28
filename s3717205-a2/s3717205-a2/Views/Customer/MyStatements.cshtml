@@ -4,8 +4,6 @@
 
 @{
 	ViewData["Title"] = "My Statements";
-
-	var accounts = ViewBag.Accounts;
 }
 
 <h1>My Statements Page</h1>
@@ -18,17 +16,7 @@
 	@if(Model == null)
 	{
 		<form asp-action="MyStatements" asp-route-page="0">
-
 			<input id="AccountNumber" name="AccountNumber" class="form-control" />
-
-			<select data-val="true" data-val-required="Please select an account.">
-			
-				<option value="">Select account</option>
-
-			
-		
-
-			</select>
 		</form>
 
 		<!--reddirect to mystatements with an account number and page = 0-->

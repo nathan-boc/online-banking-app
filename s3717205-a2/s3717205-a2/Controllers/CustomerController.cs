@@ -75,10 +75,14 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
+        public IActionResult MyStatements() => View();
+
         [HttpPost]
         public async Task<IActionResult> MyStatements(int accountNumber, int page)
         {
             const int pageSize = 4;
+
+            // chcek if accountnumber is owned by customer
 
             // Looks for transactions that match the selected account number, ordered by transaction date
             List<Transaction> transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
@@ -86,8 +90,7 @@ namespace s3717205_a2.Controllers
                 // Retrieves only 4 transactions at a time
                 .Skip(pageSize * page).Take(pageSize).ToListAsync();
 
-            var accounts = await _context.Account.Where(x => x.CustomerID == CustomerID).ToListAsync();
-            ViewBag.Accounts = accounts;
+            
 
             // Return to page 0 if reaching out of bounds
             if (transactionList == null)
@@ -98,14 +101,6 @@ namespace s3717205_a2.Controllers
 
             // Passes 4 transactions as a list of transactions
             return View(transactionList);
-        }
-
-        public async Task<IActionResult> MyStatements()
-        {
-            var accounts = await _context.Account.Where(x => x.CustomerID == CustomerID).ToListAsync();
-
-            ViewBag.Accounts = accounts;
-            return View();
         }
 
         public IActionResult MyProfile()
