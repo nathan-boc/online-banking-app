@@ -11,13 +11,14 @@
 <div>
 	<hr />
 
-   <label>Choose an account:</label>
-
 	@if(Model == null)
 	{
+		<label>Choose an account:</label>
+
 		<form asp-action="MyStatements" asp-route-page="0">
 			<input id="AccountNumber" name="AccountNumber" class="form-control" />
 		</form>
+		@Html.ValidationMessage("InvalidAccount", new { @class = "text-danger" })
 
 		<!--reddirect to mystatements with an account number and page = 0-->
 

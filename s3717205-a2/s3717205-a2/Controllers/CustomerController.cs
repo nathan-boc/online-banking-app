@@ -80,27 +80,35 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> MyStatements(int accountNumber, int page)
         {
-            const int pageSize = 4;
+            // Checks if account is owned by the customer
+            var account = await _context.Account.FindAsync(accountNumber);
 
-            // chcek if accountnumber is owned by customer
-
-            // Looks for transactions that match the selected account number, ordered by transaction date
-            List<Transaction> transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
-                
-                // Retrieves only 4 transactions at a time
-                .Skip(pageSize * page).Take(pageSize).ToListAsync();
-
-            
-
-            // Return to page 0 if reaching out of bounds
-            if (transactionList == null)
+            if (account == null || account.CustomerID != CustomerID)
             {
-                ModelState.AddModelError("OutOfBounds", "Invalid page number.");
-                return RedirectToAction(nameof(MyStatements), new { accountNumber = accountNumber, page = 0 });
+                // Returns error message if account number isn't associated with logged in customer
+                ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+                return View();
             }
+            else
+            {
+                const int pageSize = 4;
 
-            // Passes 4 transactions as a list of transactions
-            return View(transactionList);
+                // Looks for transactions that match the selected account number, ordered by transaction date
+                var transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+
+                    // Retrieves only 4 transactions at a time
+                    .Skip(pageSize * page).Take(pageSize).ToListAsync();
+
+                // Return to page 0 if reaching out of bounds
+                if (transactionList == null)
+                {
+                    ModelState.AddModelError("OutOfBounds", "Invalid page number.");
+                    return RedirectToAction(nameof(MyStatements), new { accountNumber = accountNumber, page = 0 });
+                }
+
+                // Passes 4 transactions as a list of transactions
+                return View(transactionList);
+            }
         }
 
         public IActionResult MyProfile()
