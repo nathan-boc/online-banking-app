@@ -95,7 +95,7 @@ namespace s3717205_a2.Controllers
 
                 // Pass page number and account number to the view
                 ViewBag.Page = page;
-                ViewBag.AccountNumber = accountNumber;
+                ViewBag.Account = account;
 
                 // Retrieves 4 transactions at a time matching account number
                 var transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)

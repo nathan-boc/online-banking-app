@@ -9,7 +9,7 @@
 
 	var currentPage = ViewBag.Page;
 
-	var accountNumber = ViewBag.AccountNumber;
+	var account = ViewBag.Account;
 }
 
 <h1>My Statements Page</h1>
@@ -40,9 +40,11 @@
 		}
 		
 		<h1>Displaying transactions for:</h1>
-		<p>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</p>
+		<p>@account.AccountNumber</p>
 		<br />
 		
+		<p>Current Balance: @Math.Round(account.Balance, 2)</p>
+		<br />
 
 		<div class="d-flex flex-row">
 
@@ -83,7 +85,7 @@
 
 		</table>
 
-		<form asp-action="MyStatements" asp-route-accountNumber="@accountNumber">
+		<form asp-action="MyStatements" asp-route-accountNumber="@account.AccountNumber">
 
 			<div class="d-flex flex-row">
 
