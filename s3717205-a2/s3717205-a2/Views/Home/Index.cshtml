@@ -7,5 +7,17 @@
 
     <p class="text-muted">(Most Common Bank of Australia)</p>
 
-    <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-controller="Login" asp-action="Login">Please login to continue</a>
+    <!--Checks if user is logged in by checking session data-->
+	@{
+		var isLoggedIn = Context.Session.GetInt32(nameof(Customer.CustomerID)).HasValue;
+	}
+						
+	<!--Display login button if not currently logged in-->
+	@if(isLoggedIn == false)
+	{
+		<a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-controller="Login" asp-action="Login">
+			Please login to continue
+		</a>
+	}
+
 </div>
