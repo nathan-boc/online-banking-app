@@ -1,9 +1,15 @@
-﻿@using MvcBank.Models;
+﻿@using Microsoft.AspNetCore.Http
+
+@using MvcBank.Models;
 
 @model IEnumerable<Transaction>
 
 @{
 	ViewData["Title"] = "My Statements";
+
+	var currentPage = ViewBag.Page;
+
+	var accountNumber = ViewBag.AccountNumber;
 }
 
 <h1>My Statements Page</h1>
@@ -20,13 +26,22 @@
 		</form>
 		@Html.ValidationMessage("InvalidAccount", new { @class = "text-danger" })
 
-		<!--reddirect to mystatements with an account number and page = 0-->
-
 	}
 	else
 	{
+		var nextPage = currentPage + 1;
+
+		var prevPage = 0;
+
+		if(currentPage != 0)
+		{
+			prevPage = currentPage - 1;
+		}
+		
 		<h1>Displaying transactions for:</h1>
-		<h5>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</h5>
+		<p>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</p>
+		<br />
+		<label>Page: @currentPage</label>
 
 		<table class="table">
 
@@ -54,6 +69,25 @@
 			}
 
 		</table>
+
+		<form asp-action="MyStatements" asp-route-accountNumber="@accountNumber">
+
+			<div class="d-flex flex-row">
+
+				<div class="p-2">
+					<button name="page" value="@prevPage">Previous Page</button>
+				</div>
+
+				<div class="p-2">
+					<button name="page" value="@nextPage">Next Page</button>
+				</div>
+
+			</div>
+
+		</form>
+
+		@Html.ValidationMessage("OutOfBounds", new { @class = "text-danger" })
+		
 	}
 
 </div>

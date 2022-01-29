@@ -93,6 +93,10 @@ namespace s3717205_a2.Controllers
             {
                 const int pageSize = 4;
 
+                // Pass page number and account number to the view
+                ViewBag.Page = page;
+                ViewBag.AccountNumber = accountNumber;
+
                 // Looks for transactions that match the selected account number, ordered by transaction date
                 var transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
 
@@ -100,10 +104,17 @@ namespace s3717205_a2.Controllers
                     .Skip(pageSize * page).Take(pageSize).ToListAsync();
 
                 // Return to page 0 if reaching out of bounds
-                if (transactionList == null)
+                if (transactionList == null || transactionList.Count == 0)
                 {
-                    ModelState.AddModelError("OutOfBounds", "Invalid page number.");
-                    return RedirectToAction(nameof(MyStatements), new { accountNumber = accountNumber, page = 0 });
+                    page -= 1;
+
+                    transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+                        .Skip(pageSize * page).Take(pageSize).ToListAsync();
+
+                    ModelState.AddModelError("OutOfBounds", "This is the final page of your statement.");
+
+                    ViewBag.Page = page;
+                    return View(transactionList); ;
                 }
 
                 // Passes 4 transactions as a list of transactions
