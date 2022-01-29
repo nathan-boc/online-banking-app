@@ -1,11 +1,106 @@
-﻿@model Customer
+﻿@using Microsoft.AspNetCore.Http
+
+@using MvcBank.Models;
+
+@model IEnumerable<Transaction>
 
 @{
-    ViewData["Title"] = "My Statements";
+	ViewData["Title"] = "My Statements";
+
+	var currentPage = ViewBag.Page;
+
+	var accountNumber = ViewBag.AccountNumber;
 }
 
 <h1>My Statements Page</h1>
 
 <div>
-   <!-- similar steps to deposit-->
+	<hr />
+
+	@if(Model == null)
+	{
+		<label>Choose an account:</label>
+
+		<form asp-action="MyStatements" asp-route-page="0">
+			<input id="AccountNumber" name="AccountNumber" class="form-control" />
+			<input type="submit" value="Submit" class"btn btn-primary" />
+		</form>
+		@Html.ValidationMessage("InvalidAccount", new { @class = "text-danger" })
+
+	}
+	else
+	{
+		var nextPage = currentPage + 1;
+
+		var prevPage = 0;
+
+		if(currentPage != 0)
+		{
+			prevPage = currentPage - 1;
+		}
+		
+		<h1>Displaying transactions for:</h1>
+		<p>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</p>
+		<br />
+		
+
+		<div class="d-flex flex-row">
+
+				<div class="p-2">
+					<label>Page: @currentPage</label>
+				</div>
+
+				<div class="p-2">
+					<button><a class="nav-link text-dark" asp-action="MyStatements">Go Back</a></button>
+				</div>
+
+			</div>
+
+		<table class="table">
+
+			<!--Column headers-->
+			<tr>
+				<th>@Html.DisplayNameFor(x => x.ElementAt(0).TransactionID)</th>
+				<th>@Html.DisplayNameFor(x => x.ElementAt(0).TransactionType)</th>
+				<th>@Html.DisplayNameFor(x => x.ElementAt(0).DestinationAccount)</th>
+				<th>@Html.DisplayNameFor(x => x.ElementAt(0).Amount)</th>
+				<th>@Html.DisplayNameFor(x => x.ElementAt(0).Comment)</th>
+				<th>@Html.DisplayNameFor(x => x.ElementAt(0).TransactionTimeUtc)</th>
+			</tr>
+
+			@foreach(var transaction in Model) {
+
+				<!--One row will be displayed for each transaction-->
+				<tr>
+					<td>@Html.DisplayFor(x => transaction.TransactionID)</td>
+					<td>@Html.DisplayFor(x => transaction.TransactionType)</td>
+					<td>@Html.DisplayFor(x => transaction.DestinationAccount)</td>
+					<td>@Html.DisplayFor(x => transaction.Amount)</td>
+					<td>@Html.DisplayFor(x => transaction.Comment)</td>
+					<td>@Html.DisplayFor(x => transaction.TransactionTimeUtc)</td>
+				</tr>
+			}
+
+		</table>
+
+		<form asp-action="MyStatements" asp-route-accountNumber="@accountNumber">
+
+			<div class="d-flex flex-row">
+
+				<div class="p-2">
+					<button name="page" value="@prevPage">Previous Page</button>
+				</div>
+
+				<div class="p-2">
+					<button name="page" value="@nextPage">Next Page</button>
+				</div>
+
+			</div>
+
+		</form>
+
+		@Html.ValidationMessage("OutOfBounds", new { @class = "text-danger" })
+		
+	}
+
 </div>

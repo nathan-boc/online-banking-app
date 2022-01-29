@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using MvcBank.Data;
 using MvcBank.Models;
@@ -74,9 +75,49 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
-        public IActionResult MyStatements()
+        public IActionResult MyStatements() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> MyStatements(int accountNumber, int page)
         {
-            return View();
+            // Checks if account is owned by the customer
+            var account = await _context.Account.FindAsync(accountNumber);
+
+            if (account == null || account.CustomerID != CustomerID)
+            {
+                // Returns error message if account number isn't associated with logged in customer
+                ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+                return View();
+            }
+            else
+            {
+                const int pageSize = 4;
+
+                // Pass page number and account number to the view
+                ViewBag.Page = page;
+                ViewBag.AccountNumber = accountNumber;
+
+                // Retrieves 4 transactions at a time matching account number
+                var transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+                    .Skip(pageSize * page).Take(pageSize).ToListAsync();
+
+                // Throw error when going out of bounds
+                if (transactionList == null || transactionList.Count == 0)
+                {
+                    // Reverses the effect of clicking 'Next Page'
+                    page -= 1;
+                    ViewBag.Page = page;
+
+                    transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+                        .Skip(pageSize * page).Take(pageSize).ToListAsync();
+
+                    ModelState.AddModelError("OutOfBounds", "This is the final page of your statement.");
+                    return View(transactionList); ;
+                }
+
+                // Returns 4 transactions as a list
+                return View(transactionList);
+            }
         }
 
         public IActionResult MyProfile()
