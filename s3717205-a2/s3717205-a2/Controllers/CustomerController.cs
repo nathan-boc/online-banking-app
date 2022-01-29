@@ -72,13 +72,16 @@ namespace s3717205_a2.Controllers
         {
             var account = await _context.Account.FindAsync(accountNumber);
 
-            // Checking for valid deposit amount
+            // Checking for valid wthdraw amount
             if (amount > 0 == false)
-                ModelState.AddModelError("NegativeAmount", "The deposit amount must be greater than 0.");
+                ModelState.AddModelError("NegativeAmount", "The withdraw amount must be greater than 0.");
             else if (amount.MoreThanNDecimalPlaces(2) == true)
-                ModelState.AddModelError("TooManyDecimals", "The deposit amount cannot have more than 2 decimal places.");
+                ModelState.AddModelError("TooManyDecimals", "The withdraw amount cannot have more than 2 decimal places.");
             else if (account == null || account.CustomerID != CustomerID)
                 ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+            else if ((account.AccountType == 'C' && account.Balance - amount < 300) 
+                || (account.AccountType == 'S' && account.Balance - amount < 0))
+                ModelState.AddModelError("InsufficientFunds", "Insufficient funds.");
 
             // If an invalid input is given, pass the inputted amount to the new view call
             if (ModelState.IsValid == false)
