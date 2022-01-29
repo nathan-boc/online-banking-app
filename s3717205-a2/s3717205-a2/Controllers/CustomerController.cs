@@ -142,7 +142,7 @@ namespace s3717205_a2.Controllers
                     page -= 1;
                     ViewBag.Page = page;
 
-                    transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderBy(x => x.TransactionTimeUtc)
+                    transactionList = await _context.Transaction.Where(x => x.AccountNumber == accountNumber).OrderByDescending(x => x.TransactionTimeUtc)
                         .Skip(pageSize * page).Take(pageSize).ToListAsync();
 
                     ModelState.AddModelError("OutOfBounds", "This is the final page of your statement.");
