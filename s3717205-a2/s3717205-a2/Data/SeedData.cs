@@ -34,11 +34,24 @@ public static class SeedData
 				DateFormatString = "dd/MM/yyyy"
 			});
 
+			decimal currentBalance = 0;
+
 			// All transactions from JSON set as deposit type
 			foreach (Customer customer in users)
 				foreach (Account account in customer.Accounts)
+				{
+					currentBalance = 0;
+
 					foreach (Transaction transaction in account.Transactions)
+					{
+						// Code assumes all seeded transactions are deposits
 						transaction.TransactionType = 'D';
+						currentBalance += transaction.Amount;
+					}
+
+					account.Balance = currentBalance;
+				}
+		
 		}
 		catch(InvalidDataException ex)
 		{
