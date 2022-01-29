@@ -65,10 +65,20 @@ namespace s3717205_a2.Controllers
             }
         }
 
-        public IActionResult Withdraw()
+        public IActionResult Withdraw() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Withdraw(decimal amount, int accountNumber)
         {
+            // TODO : Verify account number
+            // TODO : Verify amount given
+
+            // TODO : Subtract withdrawal from balance
+            // TODO : Save changes to the context
             return View();
         }
+
+
 
         public IActionResult Transfer()
         {
