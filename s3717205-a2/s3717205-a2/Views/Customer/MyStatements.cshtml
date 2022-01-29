@@ -23,6 +23,7 @@
 
 		<form asp-action="MyStatements" asp-route-page="0">
 			<input id="AccountNumber" name="AccountNumber" class="form-control" />
+			<input type="submit" value="Submit" class"btn btn-primary" />
 		</form>
 		@Html.ValidationMessage("InvalidAccount", new { @class = "text-danger" })
 
@@ -41,7 +42,19 @@
 		<h1>Displaying transactions for:</h1>
 		<p>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</p>
 		<br />
-		<label>Page: @currentPage</label>
+		
+
+		<div class="d-flex flex-row">
+
+				<div class="p-2">
+					<label>Page: @currentPage</label>
+				</div>
+
+				<div class="p-2">
+					<button><a class="nav-link text-dark" asp-action="MyStatements">Go Back</a></button>
+				</div>
+
+			</div>
 
 		<table class="table">
 
