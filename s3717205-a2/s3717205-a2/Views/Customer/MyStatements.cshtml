@@ -40,10 +40,10 @@
 		}
 		
 		<h1>Displaying transactions for:</h1>
-		<p>@account.AccountNumber</p>
+		<p>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</p>
 		<br />
 		
-		<p>Current Balance: @Math.Round(account.Balance, 2)</p>
+		<p>Current Balance: $@Math.Round(account.Balance, 2)</p>
 		<br />
 
 		<div class="d-flex flex-row">
@@ -79,7 +79,7 @@
 					<td>@Html.DisplayFor(x => transaction.DestinationAccount)</td>
 					<td>@Html.DisplayFor(x => transaction.Amount)</td>
 					<td>@Html.DisplayFor(x => transaction.Comment)</td>
-					<td>@Html.DisplayFor(x => transaction.TransactionTimeUtc)</td>
+					<td>@transaction.TransactionTimeUtc.ToLocalTime()</td>
 				</tr>
 			}
 
@@ -102,7 +102,6 @@
 		</form>
 
 		@Html.ValidationMessage("OutOfBounds", new { @class = "text-danger" })
-		
 	}
 
 </div>
