@@ -9,7 +9,7 @@
 
 	var currentPage = ViewBag.Page;
 
-	var accountNumber = ViewBag.AccountNumber;
+	var account = ViewBag.Account;
 }
 
 <h1>My Statements Page</h1>
@@ -43,6 +43,8 @@
 		<p>@Html.DisplayFor(x => x.ElementAt(0).AccountNumber)</p>
 		<br />
 		
+		<p>Current Balance: $@Math.Round(account.Balance, 2)</p>
+		<br />
 
 		<div class="d-flex flex-row">
 
@@ -77,13 +79,13 @@
 					<td>@Html.DisplayFor(x => transaction.DestinationAccount)</td>
 					<td>@Html.DisplayFor(x => transaction.Amount)</td>
 					<td>@Html.DisplayFor(x => transaction.Comment)</td>
-					<td>@Html.DisplayFor(x => transaction.TransactionTimeUtc)</td>
+					<td>@transaction.TransactionTimeUtc.ToLocalTime()</td>
 				</tr>
 			}
 
 		</table>
 
-		<form asp-action="MyStatements" asp-route-accountNumber="@accountNumber">
+		<form asp-action="MyStatements" asp-route-accountNumber="@account.AccountNumber">
 
 			<div class="d-flex flex-row">
 
@@ -100,7 +102,6 @@
 		</form>
 
 		@Html.ValidationMessage("OutOfBounds", new { @class = "text-danger" })
-		
 	}
 
 </div>
