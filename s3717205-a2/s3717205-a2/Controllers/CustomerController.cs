@@ -70,15 +70,39 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> Withdraw(decimal amount, int accountNumber)
         {
-            // TODO : Verify account number
-            // TODO : Verify amount given
+            var account = await _context.Account.FindAsync(accountNumber);
 
-            // TODO : Subtract withdrawal from balance
-            // TODO : Save changes to the context
-            return View();
+            // Checking for valid deposit amount
+            if (amount > 0 == false)
+                ModelState.AddModelError("NegativeAmount", "The deposit amount must be greater than 0.");
+            else if (amount.MoreThanNDecimalPlaces(2) == true)
+                ModelState.AddModelError("TooManyDecimals", "The deposit amount cannot have more than 2 decimal places.");
+            else if (account == null || account.CustomerID != CustomerID)
+                ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+
+            // If an invalid input is given, pass the inputted amount to the new view call
+            if (ModelState.IsValid == false)
+            {
+                ViewBag.Amount = amount;
+                return View(account);
+            }
+            else
+            {
+                // Subtract from current balance and add transaction
+                account.Balance -= amount;
+                account.Transactions.Add(
+                    new Transaction
+                    {
+                        TransactionType = 'W',
+                        Amount = amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Withdraw));
+            }
         }
-
-
 
         public IActionResult Transfer()
         {
