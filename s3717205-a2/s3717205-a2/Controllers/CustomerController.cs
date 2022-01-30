@@ -116,6 +116,7 @@ namespace s3717205_a2.Controllers
         public async Task<IActionResult> Transfer(decimal amount, int accountNumber, int destinationAccountNumber)
         {
             var account = await _context.Account.FindAsync(accountNumber);
+            var destAccount = await _context.Account.FindAsync(destinationAccountNumber);
 
             // Checks if destination and account number match
             if (accountNumber == destinationAccountNumber)
@@ -129,6 +130,9 @@ namespace s3717205_a2.Controllers
             // Checks if specified account is owned by the customer
             else if (account == null || account.CustomerID != CustomerID)
                 ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+            // Checks if specified destination account exists
+            else if (destAccount == null)
+                ModelState.AddModelError("AccountNotFound", "That account could not be found.");
             // Checks if account has sufficient funds
             else if ((account.AccountType == 'C' && account.Balance - amount < 300)
                 || (account.AccountType == 'S' && account.Balance - amount < 0))
@@ -140,9 +144,10 @@ namespace s3717205_a2.Controllers
                 ViewBag.Amount = amount;
                 return View();
             }
+            else
+            {
 
-
-            // Check if destinationaccountnumber exists and is not accountNumber
+            }
 
             // TODO : There should be 2 transaction rows added in the end - one for each customer involved
             // Sender should have a row with senders accountNumber + the destinationAccountNumber
