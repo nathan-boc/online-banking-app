@@ -115,10 +115,11 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> Transfer(decimal amount, int accountNumber, int destinationAccountNumber)
         {
-            
-
             var account = await _context.Account.FindAsync(accountNumber);
 
+            // Checks if destination and account number match
+            if (accountNumber == destinationAccountNumber)
+                ModelState.AddModelError("SameAccount", "You cannot transfer funds to the same account.");
             // Checks for amount to be positive
             if (amount > 0 == false)
                 ModelState.AddModelError("NegativeAmount", "The withdraw amount must be greater than 0.");
@@ -140,8 +141,6 @@ namespace s3717205_a2.Controllers
                 return View();
             }
 
-            // TODO : Checks on valid account number + amount
-            // TODO : Check if account has sufficient funds
 
             // Check if destinationaccountnumber exists and is not accountNumber
 
