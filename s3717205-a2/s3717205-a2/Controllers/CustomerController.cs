@@ -45,7 +45,7 @@ namespace s3717205_a2.Controllers
             if (ModelState.IsValid == false)
             {
                 ViewBag.Amount = amount;
-                return View(account);
+                return View();
             }
             else
             {
@@ -72,13 +72,16 @@ namespace s3717205_a2.Controllers
         {
             var account = await _context.Account.FindAsync(accountNumber);
 
-            // Checking for valid wthdraw amount
+            // Checks for amount to be positive
             if (amount > 0 == false)
                 ModelState.AddModelError("NegativeAmount", "The withdraw amount must be greater than 0.");
+            // Checks for decimal places
             else if (amount.MoreThanNDecimalPlaces(2) == true)
                 ModelState.AddModelError("TooManyDecimals", "The withdraw amount cannot have more than 2 decimal places.");
+            // Checks if specified account is owned by the customer
             else if (account == null || account.CustomerID != CustomerID)
                 ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+            // Checks if account has sufficient funds
             else if ((account.AccountType == 'C' && account.Balance - amount < 300) 
                 || (account.AccountType == 'S' && account.Balance - amount < 0))
                 ModelState.AddModelError("InsufficientFunds", "Insufficient funds.");
@@ -87,7 +90,7 @@ namespace s3717205_a2.Controllers
             if (ModelState.IsValid == false)
             {
                 ViewBag.Amount = amount;
-                return View(account);
+                return View();
             }
             else
             {
@@ -107,9 +110,67 @@ namespace s3717205_a2.Controllers
             }
         }
 
-        public IActionResult Transfer()
+        public IActionResult Transfer() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Transfer(decimal amount, int accountNumber, int destinationAccountNumber)
         {
-            return View();
+            var account = await _context.Account.FindAsync(accountNumber);
+            var destAccount = await _context.Account.FindAsync(destinationAccountNumber);
+
+            // Checks if destination and account number match
+            if (accountNumber == destinationAccountNumber)
+                ModelState.AddModelError("SameAccount", "You cannot transfer funds to the same account.");
+            // Checks for amount to be positive
+            else if (amount > 0 == false)
+                ModelState.AddModelError("NegativeAmount", "The withdraw amount must be greater than 0.");
+            // Checks for decimal places
+            else if (amount.MoreThanNDecimalPlaces(2) == true)
+                ModelState.AddModelError("TooManyDecimals", "The withdraw amount cannot have more than 2 decimal places.");
+            // Checks if specified account is owned by the customer
+            else if (account == null || account.CustomerID != CustomerID)
+                ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+            // Checks if specified destination account exists
+            else if (destAccount == null)
+                ModelState.AddModelError("AccountNotFound", "That account could not be found.");
+            // Checks if account has sufficient funds
+            else if ((account.AccountType == 'C' && account.Balance - amount < 300)
+                || (account.AccountType == 'S' && account.Balance - amount < 0))
+                ModelState.AddModelError("InsufficientFunds", "Insufficient funds.");
+
+            // If an invalid input is given, pass the inputted amount to the new view call
+            if (ModelState.IsValid == false)
+            {
+                ViewBag.Amount = amount;
+                return View();
+            }
+            else
+            {
+                // Transaction for the sending account
+                account.Balance -= amount;
+                account.Transactions.Add(
+                    new Transaction
+                    {
+                        DestinationAccountNumber = destinationAccountNumber,
+                        TransactionType = 'T',
+                        Amount = amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+
+                // Transaction for the receiving account
+                destAccount.Balance += amount;
+                destAccount.Transactions.Add(
+                    new Transaction
+                    {
+                        TransactionType = 'T',
+                        Amount = amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Transfer));
+            }
         }
 
         public IActionResult MyStatements() => View();
