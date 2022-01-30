@@ -115,7 +115,30 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> Transfer(decimal amount, int accountNumber, int destinationAccountNumber)
         {
+            
+
             var account = await _context.Account.FindAsync(accountNumber);
+
+            // Checks for amount to be positive
+            if (amount > 0 == false)
+                ModelState.AddModelError("NegativeAmount", "The withdraw amount must be greater than 0.");
+            // Checks for decimal places
+            else if (amount.MoreThanNDecimalPlaces(2) == true)
+                ModelState.AddModelError("TooManyDecimals", "The withdraw amount cannot have more than 2 decimal places.");
+            // Checks if specified account is owned by the customer
+            else if (account == null || account.CustomerID != CustomerID)
+                ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+            // Checks if account has sufficient funds
+            else if ((account.AccountType == 'C' && account.Balance - amount < 300)
+                || (account.AccountType == 'S' && account.Balance - amount < 0))
+                ModelState.AddModelError("InsufficientFunds", "Insufficient funds.");
+
+            // If an invalid input is given, pass the inputted amount to the new view call
+            if (ModelState.IsValid == false)
+            {
+                ViewBag.Amount = amount;
+                return View();
+            }
 
             // TODO : Checks on valid account number + amount
             // TODO : Check if account has sufficient funds
