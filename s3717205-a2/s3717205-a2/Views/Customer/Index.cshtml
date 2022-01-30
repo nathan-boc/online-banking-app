@@ -10,25 +10,23 @@
 	<h4>Your Details:</h4>
 	<hr />
 	
-
 		@foreach(var account in Model.Accounts)
 		{
 			<dl class="row">
 
 				<dt class = "col-sm-2">
-					@nameof(@account.AccountNumber): @account.AccountNumber
+					@nameof(@account.AccountNumber): @Html.DisplayFor(x => account.AccountNumber)
 				</dt>
 
 				<dt class = "col-sm-2">
-					@nameof(@account.AccountType): @account.AccountType
+					@nameof(@account.AccountType): @Html.DisplayFor(x => account.AccountType)
 				</dt>
 
 				<dt class = "col-sm-2">
-					@nameof(@account.Balance): @account.Balance
+					@nameof(@account.Balance): @Html.DisplayFor(x => account.Balance)
 				</dt>
 
 			</dl>
 		}
-
 	
 </div>
