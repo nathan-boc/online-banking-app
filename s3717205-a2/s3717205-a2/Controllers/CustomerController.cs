@@ -45,7 +45,7 @@ namespace s3717205_a2.Controllers
             if (ModelState.IsValid == false)
             {
                 ViewBag.Amount = amount;
-                return View(account);
+                return View();
             }
             else
             {
@@ -90,7 +90,7 @@ namespace s3717205_a2.Controllers
             if (ModelState.IsValid == false)
             {
                 ViewBag.Amount = amount;
-                return View(account);
+                return View();
             }
             else
             {
@@ -122,7 +122,7 @@ namespace s3717205_a2.Controllers
             if (accountNumber == destinationAccountNumber)
                 ModelState.AddModelError("SameAccount", "You cannot transfer funds to the same account.");
             // Checks for amount to be positive
-            if (amount > 0 == false)
+            else if (amount > 0 == false)
                 ModelState.AddModelError("NegativeAmount", "The withdraw amount must be greater than 0.");
             // Checks for decimal places
             else if (amount.MoreThanNDecimalPlaces(2) == true)
@@ -146,17 +146,32 @@ namespace s3717205_a2.Controllers
             }
             else
             {
+                // Transaction for the sending account
+                account.Balance -= amount;
+                account.Transactions.Add(
+                    new Transaction
+                    {
+                        DestinationAccountNumber = destinationAccountNumber,
+                        TransactionType = 'T',
+                        Amount = amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
 
+                // Transaction for the receiving account
+                destAccount.Balance += amount;
+                destAccount.Transactions.Add(
+                    new Transaction
+                    {
+                        TransactionType = 'T',
+                        Amount = amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Transfer));
             }
-
-            // TODO : There should be 2 transaction rows added in the end - one for each customer involved
-            // Sender should have a row with senders accountNumber + the destinationAccountNumber
-            // Receiver should have a row with their accountNumber + null
-            // Both rows should be transactionType 'T'
-
-            return View();
         }
-
 
         public IActionResult MyStatements() => View();
 
