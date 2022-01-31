@@ -226,6 +226,15 @@ namespace s3717205_a2.Controllers
             return View(customer);
         }
 
+        public IActionResult ChangePassword() => View();
+
+        public async Task<IActionResult> ChangePassword(string password)
+		{
+            var login = await _context.Login.Where(x => x.CustomerID == CustomerID).FirstAsync();
+
+            return View();
+		}
+
         public async Task<IActionResult> EditProfile()
         {
             // Loads current customers' data
