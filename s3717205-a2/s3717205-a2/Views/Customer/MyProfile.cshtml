@@ -8,7 +8,16 @@
 
 <div>
 
-    <p>Click on Edit Profile to change your password.</p>
+	<a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-action="ChangePassword">
+		Change Password
+	</a>
+
+    <br />
+
+    <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-action="EditProfile">
+		Edit Profile
+	</a>
+
     <br />
 
     <div class="border-bottom">
@@ -45,9 +54,5 @@
         <label asp-for="Mobile" class="control-label"></label>
         <p>@Model.Mobile</p>
     </div>
-
-    <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-action="EditProfile">
-		Edit Profile
-	</a>
 
 </div>
