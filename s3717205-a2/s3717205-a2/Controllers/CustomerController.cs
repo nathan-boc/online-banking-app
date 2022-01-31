@@ -278,7 +278,7 @@ namespace s3717205_a2.Controllers
         public IActionResult AddBillPay() => View();
 
         [HttpPost]
-        public async Task<IActionResult> AddBillPay(int accountNumber, int payeeID, decimal amount, DateTime scheduleTime, char period)
+        public async Task<IActionResult> AddBillPay(int accountNumber, int payeeID, decimal amount, DateTime scheduleTimeUtc, char period)
         {
             // Obtain the customer's account
             var account = await _context.Account.FindAsync(accountNumber);
@@ -301,7 +301,7 @@ namespace s3717205_a2.Controllers
             // Checks if account has sufficient funds
             if (payee == null)
                 ModelState.AddModelError("InvalidPayee", "Invalid Payee ID. Please input and existing ID.");
-            if (scheduleTime <= DateTime.UtcNow)
+            if (scheduleTimeUtc <= DateTime.UtcNow)
                 ModelState.AddModelError("InvalidTime", "Please enter a time in the future.");
 
             if (ModelState.IsValid == false)
@@ -316,7 +316,7 @@ namespace s3717205_a2.Controllers
                     {
                         PayeeID = payeeID,
                         Amount = amount,
-                        ScheduleTimeUtc = scheduleTime,
+                        ScheduleTimeUtc = scheduleTimeUtc,
                         Period = period
                     });
 

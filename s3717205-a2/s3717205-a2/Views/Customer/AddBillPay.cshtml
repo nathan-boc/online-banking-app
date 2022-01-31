@@ -1,7 +1,7 @@
 ﻿@model BillPay
 
 @{
-	ViewData["Title"] = "Withdraw";
+	ViewData["Title"] = "BillPay";
 }
 
 <h1>Add BillPay Page</h1>
@@ -19,17 +19,36 @@
 		</div>
 
 		<div class="form-group">
-			<label for="Amount" class="control-label">Amount</label>
-			<input for="Amount" name="Amount" class="form-control" value="@ViewBag.Amount?.ToString("0.00")"
-			data-val="true" data-val-number="Must give a valid deposit amount."
-					data-val-required="A deposit amount is required." />
-			@Html.ValidationMessage("NegativeAmount", new { @class = "text-danger" })
-			@Html.ValidationMessage("TooManyDecimals", new { @class = "text-danger" })
-			@Html.ValidationMessage("InsufficientFunds", new { @class = "text-danger" })
+			<label asp-for="PayeeID" class="control-label"></label>
+			<input asp-for="PayeeID" class="form-control" />
+			<span asp-validation-for="PayeeID" class="text-danger"></span>
+			@Html.ValidationMessage("InvalidPayee", new { @class = "text-danger" })
 		</div>
 
 		<div class="form-group">
-			<input type="submit" value="Withdraw" class"btn btn-primary" />
+			<label asp-for="Amount" class="control-label"></label>
+			<input asp-for="Amount" class="form-control" />
+			<span asp-validation-for="Amount" class="text-danger"></span>
+			@Html.ValidationMessage("NegativeAmount", new { @class = "text-danger" })
+			@Html.ValidationMessage("TooManyDecimals", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			<label asp-for="ScheduleTimeUtc" class="control-label"></label>
+			<input asp-for="ScheduleTimeUtc" class="form-control" />
+			<span asp-validation-for="ScheduleTimeUtc" class="text-danger"></span>
+			@Html.ValidationMessage("InvalidTime", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Period" class="control-label"></label>
+			<input asp-for="Period" class="form-control" />
+			<span asp-validation-for="Period" class="text-danger"></span>
+			@Html.ValidationMessage("InvalidPeriod", new { @class = "text-danger" })
+		</div>
+
+		<div class="form-group">
+			<input type="submit" value="Schedule BillPay" class"btn btn-primary" />
 		</div>
 
 	</form>
