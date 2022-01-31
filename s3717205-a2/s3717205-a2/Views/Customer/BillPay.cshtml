@@ -1,1 +1,48 @@
-﻿
+﻿@model IEnumerable<BillPay>
+
+@{
+	ViewData["Title"] = "BillPay";
+}
+
+<h1>BillPay Page</h1>
+
+<div>
+	<h4>Your Scheduled Payments:</h4>
+	<hr />
+	
+	@foreach(var bill in Model)
+	{
+		<dl class="row">
+
+			<dt class = "col-sm-2">
+				@nameof(bill.BillPayID): @Html.DisplayFor(x => bill.BillPayID)
+			</dt>
+
+			<dt class = "col-sm-2">
+				@nameof(bill.AccountNumber): @Html.DisplayFor(x => bill.AccountNumber)
+			</dt>
+
+			<dt class = "col-sm-2">
+				@nameof(bill.PayeeID): @Html.DisplayFor(x => bill.PayeeID)
+			</dt>
+
+			<dt class = "col-sm-2">
+				@nameof(bill.Amount): @Html.DisplayFor(x => bill.Amount)
+			</dt>
+
+			<dt class = "col-sm-2">
+				@nameof(bill.PayeeID): @Html.DisplayFor(x => bill.PayeeID)
+			</dt>
+
+			<dt class = "col-sm-2">
+				@nameof(bill.ScheduleTimeUtc): @Html.DisplayFor(x => bill.ScheduleTimeUtc.ToLocalTime())
+			</dt>
+
+			<dt class = "col-sm-2">
+				@nameof(bill.Period): @Html.DisplayFor(x => bill.Period)
+			</dt>
+
+		</dl>
+	}
+	
+</div>
