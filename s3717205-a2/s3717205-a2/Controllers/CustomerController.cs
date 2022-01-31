@@ -231,10 +231,7 @@ namespace s3717205_a2.Controllers
             // Loads current customers' data
             var customer = await _context.Customer.FindAsync(CustomerID);
 
-            // Pass all customer data as a model
-            ViewBag.Customer = customer;
-
-            return View();
+            return View(customer);
         }
 
         [HttpPost]
@@ -242,11 +239,8 @@ namespace s3717205_a2.Controllers
         {
             var customer = await _context.Customer.FindAsync(CustomerID);
 
-            if (customer == null)
-            {
-                return View();
-            }
-            else
+            // Attempted to add validation for model attributes (TODO : Fix validation messages)
+            if(ModelState.IsValid == true)
             {
                 customer.Name = name;
                 customer.TFN = TFN;
@@ -260,6 +254,8 @@ namespace s3717205_a2.Controllers
 
                 return RedirectToAction(nameof(MyProfile));
             }
+
+            return View(customer);
         }
     }
 }
