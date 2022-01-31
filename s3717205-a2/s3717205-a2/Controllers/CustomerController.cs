@@ -293,7 +293,7 @@ namespace s3717205_a2.Controllers
             else if (amount.MoreThanNDecimalPlaces(2) == true)
                 ModelState.AddModelError("TooManyDecimals", "The amount cannot have more than 2 decimal places.");
             // Checks if period is either O or M
-            if (period != 'O' || period != 'M')
+            if (period.ToString() != "O" && period.ToString() != "M")
                 ModelState.AddModelError("InvalidPeriod", "Period should either be O for one-off or M for monthly.");
             // Checks if specified account is owned by the customer
             if (account == null || account.CustomerID != CustomerID)

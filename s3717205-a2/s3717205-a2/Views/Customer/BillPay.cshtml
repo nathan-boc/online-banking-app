@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BillPay>
+﻿@model List<BillPay>
 
 @{
 	ViewData["Title"] = "BillPay";
@@ -9,40 +9,37 @@
 <div>
 	<h4>Your Scheduled Payments:</h4>
 	<hr />
-	
-	@foreach(var bill in Model)
-	{
-		<dl class="row">
 
-			<dt class = "col-sm-2">
-				@nameof(bill.BillPayID): @Html.DisplayFor(x => bill.BillPayID)
-			</dt>
+	<a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-action="AddBillPay">
+		Add BillPay
+	</a>
 
-			<dt class = "col-sm-2">
-				@nameof(bill.AccountNumber): @Html.DisplayFor(x => bill.AccountNumber)
-			</dt>
+	<table class="table">
 
-			<dt class = "col-sm-2">
-				@nameof(bill.PayeeID): @Html.DisplayFor(x => bill.PayeeID)
-			</dt>
+		<!--Column headers-->
+		<tr>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).BillPayID)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).AccountNumber)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).PayeeID)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).Amount)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).ScheduleTimeUtc)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).Period)</th>
+		</tr>
 
-			<dt class = "col-sm-2">
-				@nameof(bill.Amount): @Html.DisplayFor(x => bill.Amount)
-			</dt>
+		@foreach(var bill in Model) 
+		{
 
-			<dt class = "col-sm-2">
-				@nameof(bill.PayeeID): @Html.DisplayFor(x => bill.PayeeID)
-			</dt>
+			<!--One row will be displayed for each transaction-->
+			<tr>
+				<td>@Html.DisplayFor(x => bill.BillPayID)</td>
+				<td>@Html.DisplayFor(x => bill.AccountNumber)</td>
+				<td>@Html.DisplayFor(x => bill.PayeeID)</td>
+				<td>@Html.DisplayFor(x => bill.Amount)</td>
+				<td>@bill.ScheduleTimeUtc.ToLocalTime()</td>
+				<td>@Html.DisplayFor(x => bill.Period)</td>
+			</tr>
+		}
 
-			<dt class = "col-sm-2">
-				@nameof(bill.ScheduleTimeUtc): @Html.DisplayFor(x => bill.ScheduleTimeUtc.ToLocalTime())
-			</dt>
+	</table>
 
-			<dt class = "col-sm-2">
-				@nameof(bill.Period): @Html.DisplayFor(x => bill.Period)
-			</dt>
-
-		</dl>
-	}
-	
 </div>

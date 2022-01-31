@@ -14,7 +14,6 @@
     <None Include="Data\MvcBankContext.cs" />
     <None Include="Data\SeedData.cs" />
     <None Include="Filters\AuthorizeCustomerAttribute.cs" />
-    <None Include="Views\Customer\BillPay.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
