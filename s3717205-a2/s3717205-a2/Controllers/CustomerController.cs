@@ -275,12 +275,42 @@ namespace s3717205_a2.Controllers
             return View(billPays);
         }
 
+        public IActionResult AddBillPay() => View();
+
         [HttpPost]
-        public async Task<IActionResult> BillPay(int billPayID, int accountNumber, decimal amount, DateTime scheduleTime, char period)
+        public async Task<IActionResult> AddBillPay(int accountNumber, int payeeID, decimal amount, DateTime scheduleTime, char period)
         {
+            // Obtain the customer's account
+            var account = await _context.Account.FindAsync(accountNumber);
 
+            // Obtain the payee
+            var payee = await _context.Payee.FindAsync(payeeID);
 
-            return View();
+            // Checks for amount to be positive
+            if (amount > 0 == false)
+                ModelState.AddModelError("NegativeAmount", "The amount must be greater than 0.");
+            // Checks for decimal places
+            else if (amount.MoreThanNDecimalPlaces(2) == true)
+                ModelState.AddModelError("TooManyDecimals", "The amount cannot have more than 2 decimal places.");
+            // Checks if specified account is owned by the customer
+            if (account == null || account.CustomerID != CustomerID)
+                ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
+            // Checks if account has sufficient funds
+            if (payee == null)
+                ModelState.AddModelError("InvalidPayee", "Invalid Payee ID. Please input and existing ID.");
+            if (scheduleTime <= DateTime.UtcNow)
+                ModelState.AddModelError("InvalidTime", "Please enter a time in the future.");
+
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
+            else
+            {
+                // TODO : setup billpay object + save to db context
+
+                return RedirectToAction(nameof(BillPay));
+            }
         }
     }
 }
