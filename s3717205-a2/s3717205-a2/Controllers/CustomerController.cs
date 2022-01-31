@@ -240,9 +240,26 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> EditProfile(string name, string TFN, string address, string suburb, string state, string postcode, string mobile)
         {
+            var customer = await _context.Customer.FindAsync(CustomerID);
 
+            if (customer == null)
+            {
+                return View();
+            }
+            else
+            {
+                customer.Name = name;
+                customer.TFN = TFN;
+                customer.Address = address;
+                customer.Suburb = suburb;
+                customer.State = state;
+                customer.Postcode = postcode;
+                customer.Mobile = mobile;
 
-            return RedirectToAction(nameof(MyProfile));
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(MyProfile));
+            }
         }
     }
 }
