@@ -7,7 +7,43 @@
 <h1>My Profile Page</h1>
 
 <div>
-    <!--shows all profile data-->
+    
+    <p>Click on Edit Profile to change your password.</p>
+    <br />
 
-    <!-- can click edit profile / cancel to open a form / close and submit change of details-->
+    <div class="border-bottom">
+        <label asp-for="Name" class="control-label"></label>
+        <p>@Model.Name</p>
+    </div>
+
+    <div class="border-bottom">
+        <label asp-for="TFN" class="control-label"></label>
+        <p>@Model.TFN</p>
+    </div>
+
+    <div class="border-bottom">
+        <label asp-for="Address" class="control-label"></label>
+        <p>@Model.Address</p>
+    </div>
+
+    <div class="border-bottom">
+        <label asp-for="Suburb" class="control-label"></label>
+        <p>@Model.Suburb</p>
+    </div>
+
+    <div class="border-bottom">
+        <label asp-for="State" class="control-label"></label>
+        <p>@Model.State</p>
+    </div>
+
+    <div class="border-bottom">
+        <label asp-for="Postcode" class="control-label"></label>
+        <p>@Model.Postcode</p>
+    </div>
+
+    <div class="border-bottom">
+        <label asp-for="Mobile" class="control-label"></label>
+        <p>@Model.Mobile</p>
+    </div>
+
 </div>

@@ -218,9 +218,12 @@ namespace s3717205_a2.Controllers
             }
         }
 
-        public IActionResult MyProfile()
+        public async Task<IActionResult> MyProfile()
         {
-            return View();
+            // Loads current customers' data
+            var customer = await _context.Customer.FindAsync(CustomerID);
+
+            return View(customer);
         }
     }
 }
