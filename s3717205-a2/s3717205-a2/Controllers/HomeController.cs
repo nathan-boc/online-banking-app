@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using s3717205_a2.Models;
+using MvcBank.Models;
 using System.Diagnostics;
 
 namespace s3717205_a2.Controllers

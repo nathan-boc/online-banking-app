@@ -1,4 +1,4 @@
-namespace s3717205_a2.Models
+namespace MvcBank.Models
 {
     public class ErrorViewModel
     {

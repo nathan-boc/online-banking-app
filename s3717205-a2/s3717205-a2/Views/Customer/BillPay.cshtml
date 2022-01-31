@@ -1,0 +1,45 @@
+﻿@model List<BillPay>
+
+@{
+	ViewData["Title"] = "BillPay";
+}
+
+<h1>BillPay Page</h1>
+
+<div>
+	<h4>Your Scheduled Payments:</h4>
+	<hr />
+
+	<a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-action="AddBillPay">
+		Add BillPay
+	</a>
+
+	<table class="table">
+
+		<!--Column headers-->
+		<tr>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).BillPayID)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).AccountNumber)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).PayeeID)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).Amount)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).ScheduleTimeUtc)</th>
+			<th>@Html.DisplayNameFor(x => x.ElementAt(0).Period)</th>
+		</tr>
+
+		@foreach(var bill in Model) 
+		{
+
+			<!--One row will be displayed for each transaction-->
+			<tr>
+				<td>@Html.DisplayFor(x => bill.BillPayID)</td>
+				<td>@Html.DisplayFor(x => bill.AccountNumber)</td>
+				<td>@Html.DisplayFor(x => bill.PayeeID)</td>
+				<td>@Html.DisplayFor(x => bill.Amount)</td>
+				<td>@bill.ScheduleTimeUtc.ToLocalTime()</td>
+				<td>@Html.DisplayFor(x => bill.Period)</td>
+			</tr>
+		}
+
+	</table>
+
+</div>
