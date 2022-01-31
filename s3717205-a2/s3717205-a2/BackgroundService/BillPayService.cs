@@ -42,7 +42,7 @@ public class BillPayService : BackgroundService
                 || (account.AccountType == 'S' && account.Balance - bill.Amount < 0))
             {
                 // Deletes the bill if the payment could not be afforded
-
+                context.BillPay.Remove(bill);
             }
             else
             {
@@ -61,16 +61,17 @@ public class BillPayService : BackgroundService
                 // Update BillPay row based on Period S / M
                 if(bill.Period == 'S')
                 {
-                    // Delete billpay row
+                    // Deletes the completed billpay
+                    context.BillPay.Remove(bill);
                 }
                 else if(bill.Period == 'M')
                 {
+                    // Adds a month to reschedule the bill
                     bill.ScheduleTimeUtc.AddMonths(1);
-                }
-
-                // Save changes to the database context
-                await context.SaveChangesAsync(cancellationToken);
+                }               
             }
+            // Save changes to the database context
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }
