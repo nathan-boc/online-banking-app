@@ -7,7 +7,7 @@
 <h1>My Profile Page</h1>
 
 <div>
-    
+
     <p>Click on Edit Profile to change your password.</p>
     <br />
 
@@ -45,5 +45,9 @@
         <label asp-for="Mobile" class="control-label"></label>
         <p>@Model.Mobile</p>
     </div>
+
+    <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-action="EditProfile">
+		Edit Profile
+	</a>
 
 </div>

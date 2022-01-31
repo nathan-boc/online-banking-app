@@ -225,5 +225,26 @@ namespace s3717205_a2.Controllers
 
             return View(customer);
         }
+
+        public async Task<IActionResult> EditProfile()
+        {
+            // Loads current customers' data
+            var customer = await _context.Customer.FindAsync(CustomerID);
+
+            // Pass all customer data as a model
+            ViewBag.Customer = customer;
+
+            return View();
+        }
+
+        /*
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(string name, string TFN, string address, string suburb, string state, string postcode, string mobile)
+        {
+
+
+            return RedirectToAction(nameof(MyProfile));
+        }
+        */
     }
 }
