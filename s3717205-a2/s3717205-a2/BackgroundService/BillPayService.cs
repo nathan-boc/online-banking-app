@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcBank.Data;
+using MvcBank.Models;
 
 namespace MvcBank.BackgroundServices;
 
@@ -45,11 +46,29 @@ public class BillPayService : BackgroundService
             }
             else
             {
-                // Decrease the account balance by the payment ammount
+                // Decrease the account balance by the payment amount
+                account.Balance -= bill.Amount;
 
                 // Add transaction of type B
+                account.Transactions.Add(
+                    new Transaction
+                    {
+                        TransactionType = 'B',
+                        Amount = bill.Amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
 
-                // Update BillPay row based on Period S / M .AddMonths(1)
+                // Update BillPay row based on Period S / M
+                if(bill.Period == 'S')
+                {
+                    // Delete billpay row
+                }
+                else if(bill.Period == 'M')
+                {
+                    bill.ScheduleTimeUtc.AddMonths(1);
+                }
+
+                // Save changes to the database context
                 await context.SaveChangesAsync(cancellationToken);
             }
         }
