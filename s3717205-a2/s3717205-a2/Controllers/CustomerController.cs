@@ -228,7 +228,7 @@ namespace s3717205_a2.Controllers
 
         public IActionResult ChangePassword() => View();
 
-        public async Task<IActionResult> ChangePassword(string password)
+        public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
 		{
             var login = await _context.Login.Where(x => x.CustomerID == CustomerID).FirstAsync();
 
