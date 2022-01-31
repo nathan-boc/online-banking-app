@@ -1,5 +1,7 @@
-using MvcBank.Data;
 using Microsoft.EntityFrameworkCore;
+
+using MvcBank.Data;
+using MvcBank.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddDbContext<MvcBankContext>(options =>
     // Enable lazy loading
     options.UseLazyLoadingProxies();
 });
+
+// Add BillPay service to run in the background
+builder.Services.AddHostedService<BillPayService>();
 
 // Store session data in web server memory
 builder.Services.AddDistributedMemoryCache();
