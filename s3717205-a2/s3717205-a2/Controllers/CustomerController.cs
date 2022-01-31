@@ -237,7 +237,6 @@ namespace s3717205_a2.Controllers
             return View();
         }
 
-        /*
         [HttpPost]
         public async Task<IActionResult> EditProfile(string name, string TFN, string address, string suburb, string state, string postcode, string mobile)
         {
@@ -245,6 +244,5 @@ namespace s3717205_a2.Controllers
 
             return RedirectToAction(nameof(MyProfile));
         }
-        */
     }
 }
