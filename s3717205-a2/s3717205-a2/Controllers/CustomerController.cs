@@ -218,9 +218,44 @@ namespace s3717205_a2.Controllers
             }
         }
 
-        public IActionResult MyProfile()
+        public async Task<IActionResult> MyProfile()
         {
-            return View();
+            // Loads current customers' data
+            var customer = await _context.Customer.FindAsync(CustomerID);
+
+            return View(customer);
+        }
+
+        public async Task<IActionResult> EditProfile()
+        {
+            // Loads current customers' data
+            var customer = await _context.Customer.FindAsync(CustomerID);
+
+            return View(customer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(string name, string TFN, string address, string suburb, string state, string postcode, string mobile)
+        {
+            var customer = await _context.Customer.FindAsync(CustomerID);
+
+            // Attempted to add validation for model attributes (TODO : Fix validation messages)
+            if(ModelState.IsValid == true)
+            {
+                customer.Name = name;
+                customer.TFN = TFN;
+                customer.Address = address;
+                customer.Suburb = suburb;
+                customer.State = state;
+                customer.Postcode = postcode;
+                customer.Mobile = mobile;
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(MyProfile));
+            }
+
+            return View(customer);
         }
     }
 }
