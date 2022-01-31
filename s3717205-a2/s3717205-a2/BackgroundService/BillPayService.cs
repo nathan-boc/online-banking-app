@@ -18,6 +18,7 @@ public class BillPayService : BackgroundService
         {
             await ExecuteBillPay(cancellationToken);
 
+            // BillPay items will be checked for every minute
             await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken);
         }
     }
@@ -28,15 +29,30 @@ public class BillPayService : BackgroundService
         var context = scope.ServiceProvider.GetRequiredService<MvcBankContext>();
 
         // Looks for bill pays with their schedule time in the past
-        var persons = await context.BillPay.Where(x => x.ScheduleTimeUtc <= DateTime.UtcNow).ToListAsync(cancellationToken);
+        var scheduledBills = await context.BillPay.Where(x => x.ScheduleTimeUtc <= DateTime.UtcNow).ToListAsync(cancellationToken);
 
-        // TODO : Delete bill pay row if payment couldnt be afforded
+        // Execute each scheduled bill
+        foreach (var bill in scheduledBills)
+        {
+            var account = await context.Account.FindAsync(bill.AccountNumber);
 
-        // TODO: Decrease account balance by the amount and add transaction type B
+            // Checks if account has sufficient funds
+            if ((account.AccountType == 'C' && account.Balance - bill.Amount < 300)
+                || (account.AccountType == 'S' && account.Balance - bill.Amount < 0))
+            {
+                // Deletes the bill if the payment could not be afforded
 
-        // TODO : If period is S, delete row. If period is M, add one month to the schedule time - .AddMonths(1)
+            }
+            else
+            {
+                // Decrease the account balance by the payment ammount
 
-        await context.SaveChangesAsync(cancellationToken);
+                // Add transaction of type B
+
+                // Update BillPay row based on Period S / M .AddMonths(1)
+                await context.SaveChangesAsync(cancellationToken);
+            }
+        }
     }
 }
 
