@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleHashing;
 
 using MvcBank.Data;
 using MvcBank.Models;
@@ -27,18 +28,18 @@ namespace s3717205_a2.Controllers
         }
 
         public IActionResult Deposit() => View();
-        
+
         [HttpPost]
         public async Task<IActionResult> Deposit(decimal amount, int accountNumber)
         {
             var account = await _context.Account.FindAsync(accountNumber);
 
             // Checking for valid deposit amount
-            if(amount > 0 == false)
+            if (amount > 0 == false)
                 ModelState.AddModelError("NegativeAmount", "The deposit amount must be greater than 0.");
-            else if(amount.MoreThanNDecimalPlaces(2) == true)
+            else if (amount.MoreThanNDecimalPlaces(2) == true)
                 ModelState.AddModelError("TooManyDecimals", "The deposit amount cannot have more than 2 decimal places.");
-            else if(account == null || account.CustomerID != CustomerID)
+            else if (account == null || account.CustomerID != CustomerID)
                 ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
 
             // If an invalid input is given, pass the inputted amount to the new view call
@@ -82,7 +83,7 @@ namespace s3717205_a2.Controllers
             else if (account == null || account.CustomerID != CustomerID)
                 ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
             // Checks if account has sufficient funds
-            else if ((account.AccountType == 'C' && account.Balance - amount < 300) 
+            else if ((account.AccountType == 'C' && account.Balance - amount < 300)
                 || (account.AccountType == 'S' && account.Balance - amount < 0))
                 ModelState.AddModelError("InsufficientFunds", "Insufficient funds.");
 
@@ -228,11 +229,34 @@ namespace s3717205_a2.Controllers
 
         public IActionResult ChangePassword() => View();
 
+        [HttpPost]
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
-		{
+        {
             var login = await _context.Login.Where(x => x.CustomerID == CustomerID).FirstAsync();
 
-            return View();
+            // Check if any fields are empty
+            if (string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword))
+                ModelState.AddModelError("EmptyPassword", "The password field is blank.");
+
+            // Checks if LoginID is empty or if password matches hashed value from database
+            else if (PBKDF2.Verify(login.PasswordHash, oldPassword) == false)
+                ModelState.AddModelError("IncorrectPassword", "Incorrect password, please try again.");
+
+            // Check if new password matched the confirm password field
+            else if (newPassword != confirmPassword)
+                ModelState.AddModelError("PasswordNotMatching", "This field doesn't match the above field.");
+
+            if (ModelState.IsValid == false)
+			{
+                return View();
+			}
+            else
+			{
+                // TODO : Update hashed password field + save changes
+
+                ViewBag.Success = "Password successfully changed!";
+                return View();
+            }
 		}
 
         public async Task<IActionResult> EditProfile()
