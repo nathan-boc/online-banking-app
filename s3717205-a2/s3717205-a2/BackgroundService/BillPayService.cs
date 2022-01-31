@@ -58,21 +58,20 @@ public class BillPayService : BackgroundService
                         TransactionTimeUtc = DateTime.UtcNow
                     });
 
-                // Update BillPay row based on Period S / M
-                if(bill.Period == 'S')
+                // Update BillPay row based on Period O / M
+                if (bill.Period == 'O')
                 {
                     // Deletes the completed billpay
                     context.BillPay.Remove(bill);
                 }
-                else if(bill.Period == 'M')
+                else if (bill.Period == 'M')
                 {
                     // Adds a month to reschedule the bill
                     bill.ScheduleTimeUtc.AddMonths(1);
-                }               
+                }
             }
             // Save changes to the database context
             await context.SaveChangesAsync(cancellationToken);
         }
     }
 }
-

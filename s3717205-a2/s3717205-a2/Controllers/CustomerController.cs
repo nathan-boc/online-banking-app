@@ -257,5 +257,30 @@ namespace s3717205_a2.Controllers
 
             return View(customer);
         }
+
+        public async Task<IActionResult> BillPay()
+        {
+            // Obtain the customer's accounts
+            var accounts = await _context.Account.Where(x => x.CustomerID == CustomerID).ToListAsync();
+
+            List<BillPay> billPays = new();
+
+            // Check for bill pays attached to the customer's accounts and append to a list
+            foreach(var account in accounts)
+            {
+                billPays.AddRange(await _context.BillPay.Where(x => x.AccountNumber == account.AccountNumber).ToListAsync());
+            }
+
+            // Pass all bill pay objects to view
+            return View(billPays);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BillPay(int billPayID, int accountNumber, decimal amount, DateTime scheduleTime, char period)
+        {
+
+
+            return View();
+        }
     }
 }
