@@ -239,25 +239,25 @@ namespace s3717205_a2.Controllers
                 ModelState.AddModelError("EmptyPassword", "The password field is blank.");
 
             // Checks if LoginID is empty or if password matches hashed value from database
-            else if (PBKDF2.Verify(login.PasswordHash, oldPassword) == false)
+            else if (login == null || PBKDF2.Verify(login.PasswordHash, oldPassword) == false)
                 ModelState.AddModelError("IncorrectPassword", "Incorrect password, please try again.");
 
             // Check if new password matched the confirm password field
             else if (newPassword != confirmPassword)
                 ModelState.AddModelError("PasswordNotMatching", "This field doesn't match the above field.");
 
-            if (ModelState.IsValid == false)
+            if (ModelState.IsValid)
 			{
-                return View();
-			}
-            else
-			{
-                // TODO : Update hashed password field + save changes
+                // Update hashed password field
+                login.PasswordHash = PBKDF2.Hash(newPassword);
+
+                await _context.SaveChangesAsync();
 
                 ViewBag.Success = "Password successfully changed!";
-                return View();
             }
-		}
+
+            return View();
+        }
 
         public async Task<IActionResult> EditProfile()
         {
