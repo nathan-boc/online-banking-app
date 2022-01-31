@@ -268,7 +268,7 @@ namespace s3717205_a2.Controllers
             // Check for bill pays attached to the customer's accounts and append to a list
             foreach(var account in accounts)
             {
-                billPays.AddRange(await _context.BillPay.Where(x => x.AccountNumber == account.AccountNumber).ToListAsync());
+                billPays.AddRange(account.BillPays);
             }
 
             // Pass all bill pay objects to view
@@ -292,6 +292,9 @@ namespace s3717205_a2.Controllers
             // Checks for decimal places
             else if (amount.MoreThanNDecimalPlaces(2) == true)
                 ModelState.AddModelError("TooManyDecimals", "The amount cannot have more than 2 decimal places.");
+            // Checks if period is either O or M
+            if (period != 'O' || period != 'M')
+                ModelState.AddModelError("InvalidPeriod", "Period should either be O for one-off or M for monthly.");
             // Checks if specified account is owned by the customer
             if (account == null || account.CustomerID != CustomerID)
                 ModelState.AddModelError("InvalidAccount", "Invalid account number. Please input one of your accounts.");
@@ -307,7 +310,17 @@ namespace s3717205_a2.Controllers
             }
             else
             {
-                // TODO : setup billpay object + save to db context
+                // Add BillPay object associated with the given account
+                account.BillPays.Add(
+                    new BillPay
+                    {
+                        PayeeID = payeeID,
+                        Amount = amount,
+                        ScheduleTimeUtc = scheduleTime,
+                        Period = period
+                    });
+
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(BillPay));
             }
