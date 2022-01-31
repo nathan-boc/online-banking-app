@@ -15,11 +15,11 @@
 			<div class="d-flex flex-row">
 				
 				<div class="p-2">
-					<a class="navbar-brand" asp-controller="Home" asp-action="Index">MCBA WebApp</a>
+					<a class="navbar-brand" asp-controller="Home" asp-action="Index">MCBA</a>
 				</div>
 
 				<div class="p-2">
-					<a class="nav-link text-white" asp-controller="Home" asp-action="Index">Home</a>
+					<a class="nav-link text-white" style="font-size:15" asp-controller="Home" asp-action="Index">Home</a>
 				</div>
 
 				<!--Checks if user is logged in by checking session data-->
@@ -31,36 +31,40 @@
 				@if(isLoggedIn == true) {
 					
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Customer" asp-action="Index">Dashboard</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="Index">Dashboard</a>
 					</div>
 					
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Customer" asp-action="Deposit">Deposit</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="Deposit">Deposit</a>
 					</div>
 
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Customer" asp-action="Withdraw">Withdraw</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="Withdraw">Withdraw</a>
 					</div>
 					
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Customer" asp-action="Transfer">Transfer</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="Transfer">Transfer</a>
 					</div>
 
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Customer" asp-action="MyStatements">My Statements</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="MyStatements">My Statements</a>
 					</div>
 
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Customer" asp-action="MyProfile">My Profile</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="MyProfile">My Profile</a>
 					</div>
 
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Login" asp-action="Logout">Logout</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Customer" asp-action="BillPay">BillPay</a>
+					</div>
+
+					<div class="p-2">
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Login" asp-action="Logout">Logout</a>
 					</div>
 
 				} else {
 					<div class="p-2">
-						<a class="nav-link text-white" asp-controller="Login" asp-action="Login">Login</a>
+						<a class="nav-link text-white" style="font-size:15" asp-controller="Login" asp-action="Login">Login</a>
 					</div>
 				}
 
