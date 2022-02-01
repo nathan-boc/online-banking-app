@@ -3,52 +3,52 @@
 using MvcBank.Models;
 using MvcBank.Models.DataManager;
 
-namespace s3717205_a2.Controllers
+namespace s3717205_a2.Controllers.Api
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LoginController : ControllerBase
+    public class BillPayController : ControllerBase
     {
-        private readonly LoginManager _repo;
+        private readonly BillPayManager _repo;
 
-        public LoginController(LoginManager repo)
+        public BillPayController(BillPayManager repo)
         {
             _repo = repo;
         }
 
         // GET: api/movies
         [HttpGet]
-        public IEnumerable<Login> Get()
+        public IEnumerable<BillPay> Get()
         {
             return _repo.GetAll();
         }
 
         // GET api/movies/1
         [HttpGet("{id}")]
-        public Login Get(string loginID)
+        public BillPay Get(int billPayID)
         {
-            return _repo.Get(loginID);
+            return _repo.Get(billPayID);
         }
 
         // POST api/movies
         [HttpPost]
-        public void Post([FromBody] Login login)
+        public void Post([FromBody] BillPay billPay)
         {
-            _repo.Add(login);
+            _repo.Add(billPay);
         }
 
         // PUT api/movies
         [HttpPut]
-        public void Put([FromBody] Login login)
+        public void Put([FromBody] BillPay billPay)
         {
-            _repo.Update(login.LoginID, login);
+            _repo.Update(billPay.BillPayID, billPay);
         }
 
         // DELETE api/movies/1
         [HttpDelete("{id}")]
-        public string Delete(string loginID)
+        public long Delete(int billPayID)
         {
-            return _repo.Delete(loginID);
+            return _repo.Delete(billPayID);
         }
     }
 }
