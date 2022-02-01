@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 using MvcBank.Models.DataManager;
 using MvcBank.Data;
@@ -16,6 +17,14 @@ builder.Services.AddDbContext<MvcBankContext>(options =>
 });
 
 builder.Services.AddScoped<CustomerManager>();
+builder.Services.AddScoped<AccountManager>();
+builder.Services.AddScoped<LoginManager>();
+builder.Services.AddScoped<TransactionManager>();
+builder.Services.AddScoped<BillPayManager>();
+builder.Services.AddScoped<PayeeManager>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Add BillPay service to run in the background
 builder.Services.AddHostedService<BillPayService>();
@@ -29,7 +38,9 @@ builder.Services.AddSession(options =>
 });
 
 // Add services to the container
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 
 var app = builder.Build();
 
@@ -52,6 +63,8 @@ using (var scope = app.Services.CreateScope())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseStaticFiles();
