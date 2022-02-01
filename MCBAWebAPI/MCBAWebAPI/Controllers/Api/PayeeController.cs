@@ -3,7 +3,7 @@
 using MvcBank.Models;
 using MvcBank.Models.DataManager;
 
-namespace s3717205_a2.Controllers
+namespace s3717205_a2.Controllers.Api
 {
 	[ApiController]
 	[Route("api/[controller]")]

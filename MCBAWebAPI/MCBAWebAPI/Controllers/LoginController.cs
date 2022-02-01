@@ -1,54 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
+using MvcBank.Data;
 using MvcBank.Models;
-using MvcBank.Models.DataManager;
+using SimpleHashing;
 
 namespace s3717205_a2.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : Controller
     {
-        private readonly LoginManager _repo;
+        public LoginController(MvcBankContext context) { }
 
-        public LoginController(LoginManager repo)
-        {
-            _repo = repo;
-        }
+        public IActionResult Login() => View();
 
-        // GET: api/movies
-        [HttpGet]
-        public IEnumerable<Login> Get()
-        {
-            return _repo.GetAll();
-        }
-
-        // GET api/movies/1
-        [HttpGet("{id}")]
-        public Login Get(string loginID)
-        {
-            return _repo.Get(loginID);
-        }
-
-        // POST api/movies
         [HttpPost]
-        public void Post([FromBody] Login login)
+        public IActionResult Login(string username, string password)
         {
-            _repo.Add(login);
+            // Checks if password field is empty
+            if (username == "admin" && password == "admin")
+            {
+                // Login admin by adding details into session data
+                HttpContext.Session.SetInt32("Admin", 1);
+
+                // Successful login directs user to the index page of CustomerController
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                ModelState.AddModelError("IncorrectInput", "Incorrect username or password.");
+                return View();
+            }
         }
 
-        // PUT api/movies
-        [HttpPut]
-        public void Put([FromBody] Login login)
+        [Route("LogoutUser")]
+        public IActionResult Logout()
         {
-            _repo.Update(login.LoginID, login);
-        }
+            // Logout user by clearing session data
+            HttpContext.Session.Clear();
 
-        // DELETE api/movies/1
-        [HttpDelete("{id}")]
-        public string Delete(string loginID)
-        {
-            return _repo.Delete(loginID);
+            // Logout directs user to home page
+            return RedirectToAction("Index", "Home");
         }
     }
 }
