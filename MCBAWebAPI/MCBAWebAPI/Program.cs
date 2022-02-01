@@ -38,9 +38,8 @@ builder.Services.AddSession(options =>
 });
 
 // Add services to the container
-builder.Services.AddControllers().AddJsonOptions(x =>
+builder.Services.AddControllersWithViews().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
 
 var app = builder.Build();
 
