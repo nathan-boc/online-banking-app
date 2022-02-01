@@ -1,23 +1,70 @@
+using Microsoft.EntityFrameworkCore;
+
+using MvcBank.Models.DataManager;
+using MvcBank.Data;
+using MvcBank.BackgroundServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services
+builder.Services.AddDbContext<MvcBankContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBankContext"));
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    // Enable lazy loading
+    options.UseLazyLoadingProxies();
+});
+
+
+builder.Services.AddScoped<BankManager>();
+
+// Add BillPay service to run in the background
+builder.Services.AddHostedService<BillPayService>();
+
+// Store session data in web server memory
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Toggle session cookies on
+    options.Cookie.IsEssential = true;
+});
+
+// Add services to the container
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Seed data
+using (var scope = app.Services.CreateScope())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI();
+    var services = scope.ServiceProvider;
+    try
+    {
+        SeedData.Initialise(services, builder.Configuration.GetConnectionString("RestApiUrl"));
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occured seeding the database.");
+    }
 }
+
+// Configure the HTTP request pipeline
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+}
+
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseSession();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
