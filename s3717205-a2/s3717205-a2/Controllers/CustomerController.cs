@@ -71,6 +71,8 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> Withdraw(decimal amount, int accountNumber)
         {
+            const decimal withdrawFee = 0.05M;
+
             var account = await _context.Account.FindAsync(accountNumber);
 
             // Checks for amount to be positive
@@ -104,6 +106,17 @@ namespace s3717205_a2.Controllers
                         Amount = amount,
                         TransactionTimeUtc = DateTime.UtcNow
                     });
+
+                // Charge customer service fee if they have 2 or more transactions
+                if(account.Transactions.Count >= 2) {
+                    account.Transactions.Add(
+                    new Transaction
+                    {
+                        TransactionType = 'S',
+                        Amount = withdrawFee,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+                }
 
                 await _context.SaveChangesAsync();
 
