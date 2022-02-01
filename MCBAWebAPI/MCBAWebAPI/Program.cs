@@ -15,8 +15,7 @@ builder.Services.AddDbContext<MvcBankContext>(options =>
     options.UseLazyLoadingProxies();
 });
 
-
-builder.Services.AddScoped<BankManager>();
+builder.Services.AddScoped<CustomerManager>();
 
 // Add BillPay service to run in the background
 builder.Services.AddHostedService<BillPayService>();

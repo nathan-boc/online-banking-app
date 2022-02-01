@@ -3,11 +3,11 @@ using MvcBank.Models.Repository;
 
 namespace MvcBank.Models.DataManager;
 
-public class BankManager : IDataRepository<Customer, int>
+public class CustomerManager : IDataRepository<Customer, int>
 {
     private readonly MvcBankContext _context;
 
-    public BankManager(MvcBankContext context)
+    public CustomerManager(MvcBankContext context)
     {
         _context = context;
     }

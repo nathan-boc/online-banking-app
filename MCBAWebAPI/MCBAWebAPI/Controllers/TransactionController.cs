@@ -7,48 +7,48 @@ namespace s3717205_a2.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerController : ControllerBase
+    public class TransactionController : ControllerBase
     {
-        private readonly CustomerManager _repo;
+        private readonly TransactionManager _repo;
 
-        public CustomerController(CustomerManager repo)
+        public TransactionController(TransactionManager repo)
         {
             _repo = repo;
         }
 
         // GET: api/movies
         [HttpGet]
-        public IEnumerable<Customer> Get()
+        public IEnumerable<Transaction> Get()
         {
             return _repo.GetAll();
         }
 
         // GET api/movies/1
         [HttpGet("{id}")]
-        public Customer Get(int id)
+        public Transaction Get(int transactionID)
         {
-            return _repo.Get(id);
+            return _repo.Get(transactionID);
         }
 
         // POST api/movies
         [HttpPost]
-        public void Post([FromBody] Customer customer)
+        public void Post([FromBody] Transaction transaction)
         {
-            _repo.Add(customer);
+            _repo.Add(transaction);
         }
 
         // PUT api/movies
         [HttpPut]
-        public void Put([FromBody] Customer customer)
+        public void Put([FromBody] Transaction transaction)
         {
-            _repo.Update(customer.CustomerID, customer);
+            _repo.Update(transaction.TransactionID, transaction);
         }
 
         // DELETE api/movies/1
         [HttpDelete("{id}")]
-        public long Delete(int id)
+        public long Delete(int transactionID)
         {
-            return _repo.Delete(id);
+            return _repo.Delete(transactionID);
         }
     }
 }
