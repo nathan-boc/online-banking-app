@@ -129,6 +129,8 @@ namespace s3717205_a2.Controllers
         [HttpPost]
         public async Task<IActionResult> Transfer(decimal amount, int accountNumber, int destinationAccountNumber)
         {
+            const decimal transferFee = 0.10M;
+
             var account = await _context.Account.FindAsync(accountNumber);
             var destAccount = await _context.Account.FindAsync(destinationAccountNumber);
 
@@ -180,6 +182,18 @@ namespace s3717205_a2.Controllers
                         Amount = amount,
                         TransactionTimeUtc = DateTime.UtcNow
                     });
+
+                // Charge customer service fee if they have 2 or more transactions
+                if (account.Transactions.Count >= 2)
+                {
+                    account.Transactions.Add(
+                    new Transaction
+                    {
+                        TransactionType = 'S',
+                        Amount = transferFee,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+                }
 
                 await _context.SaveChangesAsync();
 
