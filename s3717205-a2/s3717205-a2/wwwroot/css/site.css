@@ -1,18 +1,90 @@
-html {
-  font-size: 14px;
-}
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+/*
+    Page Properties
+    ---------------
+*/
 
 html {
-  position: relative;
-  min-height: 100%;
+  margin: 0 0 0;
+  padding: 0 0 0;
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0 0 0;
+  padding: 0 0 0;
+}
+
+nav {
+    height: 70px;
+    background-color: #2F2F2F;
+}
+
+nav.logged-out {
+
+}
+
+nav.logged-in {
+
+}
+
+/*
+    Text Properties
+    ---------------
+*/
+
+.middle-align {
+    text-align: center;
+}
+
+h1 {
+    padding: 0 0 50px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+}
+
+.sign-in-prompt {
+    width: 15%;
+    margin: 0 auto 0;
+    font-size: 16px;
+    font-family: 'Sen', sans-serif;
+}
+
+.link-text {
+    color: #5671FF;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/*
+    Button Properties
+    -----------------
+*/
+
+.btn-cta {
+    padding: 15px 40px;
+    margin: 0 0 70px;
+    color: white;
+    background-color: #1147A0;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+    border: 0;
+    border-radius: 7px;
+}
+
+/*
+    Image Properties
+    ----------------
+*/
+
+.landing-hero {
+    width: 40%;
+    padding: 0 0 50px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
 }

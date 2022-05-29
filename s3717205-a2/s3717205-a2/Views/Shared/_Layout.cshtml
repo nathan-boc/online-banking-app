@@ -8,10 +8,13 @@
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/s3717205_a2.styles.css" asp-append-version="true" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+		<nav class="logged-out">
 			<div class="d-flex flex-row">
 				
 				<div class="p-2">
@@ -77,14 +80,6 @@
 			@RenderBody()
 		</main>
 	</div>
-
-	<footer class="border-top footer text-muted">
-		<div class="container" style="text-align:center">
-			Web Development Technologies 2022 (Flex)
-			<br /><br />
-			Nathan Boc - s3717205
-		</div>
-	</footer>
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

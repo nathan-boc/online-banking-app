@@ -1,23 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "MCBA Home";
+    ViewData["Title"] = "Mekay Bank";
 }
+<div class=middle-align>
 
-<div class="text-center">
-    <h1 class="display-4">Hi, Welcome to MCBA</h1>
+    <img class="landing-hero" src="~/images/bank-hero.jpg" />
 
-    <p class="text-muted">(Most Common Bank of Australia)</p>
+	<h1>Welcome to Mekay Online Banking</h1> 
 
-    <!--Checks if user is logged in by checking session data-->
 	@{
+		<!--Check session data to see if user is logged in-->
 		var isLoggedIn = Context.Session.GetInt32(nameof(Customer.CustomerID)).HasValue;
 	}
 						
-	<!--Display login button if not currently logged in-->
+	<!--Display signin / create account prompts if not logged in-->
 	@if(isLoggedIn == false)
 	{
-		<a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-controller="Login" asp-action="Login">
-			Please login to continue
-		</a>
+		<button class="btn-cta" asp-controller="Login" asp-action="Login">
+			Create a New Account
+		</button>
+
+		<div class="sign-in-prompt middle-align">
+			or <a class="link-text" asp-controller="Login" asp-action="Login">sign in</a> with an existing acount
+		</div>
 	}
 
 </div>
