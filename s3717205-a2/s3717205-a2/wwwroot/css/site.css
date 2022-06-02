@@ -14,17 +14,55 @@ body {
   padding: 0 0 0;
 }
 
-nav {
-    height: 70px;
+
+/*
+    Navbar Properties
+    ---------------
+*/
+
+.nav-item {
+    height: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+}
+
+.nav-item:hover {
+    background-color: #3b3b3b;
+    cursor: pointer;
+}
+
+.nav-item-container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.icon-hamburger {
+    width: 35px;
+}
+
+.icon-profile {
+    width: 55px;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+}
+
+/*
+    Grid Properties
+    ---------------
+*/
+
+.grid-navbar {
+    padding: 0 40px;
     background-color: #2F2F2F;
-}
-
-nav.logged-out {
-
-}
-
-nav.logged-in {
-
+    display: grid;
+    grid-template-columns: 15% auto 8% 8%;
+    grid-template-rows: 80px;
 }
 
 /*
@@ -78,10 +116,18 @@ h1 {
     ----------------
 */
 
+
+
 .landing-hero {
     width: 40%;
     padding: 0 0 50px;
 }
+
+
+
+
+
+
 
 @media (min-width: 768px) {
     html {
