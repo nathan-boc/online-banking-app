@@ -15,11 +15,11 @@
 	<!--Display signin / create account prompts if not logged in-->
 	@if(isLoggedIn == false)
 	{
-		<button class="btn-cta" asp-controller="Login" asp-action="Login">
+		<button class="btn-large" asp-controller="Login" asp-action="Login">
 			Create a New Account
 		</button>
 
-		<div class="sign-in-prompt middle-align">
+		<div class="alt-entry-prompt middle-align">
 			or <a class="link-text" asp-controller="Login" asp-action="Login">sign in</a> with an existing acount
 		</div>
 	}

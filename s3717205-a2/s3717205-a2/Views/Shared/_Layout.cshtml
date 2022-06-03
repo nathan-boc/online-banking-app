@@ -13,7 +13,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<nav>
 	<div class="grid-navbar">
 
 		<a asp-controller="Home" asp-action="Index">
@@ -113,12 +113,13 @@
 	</div>
 
 	-->
+</nav>
 
-	<div class="container">
-		<main role="main" class="pb-3">
-			@RenderBody()
-		</main>
-	</div>
+<body>
+	
+	<div class="main-container"">
+		@RenderBody()
+	</div>	
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

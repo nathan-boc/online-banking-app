@@ -4,26 +4,38 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<div class="grid-entry-form-page">
 
-<div>
-    <h4>Login</h4>
-    <hr />
-    <form asp-action="Login">
-        <div class="form-group">
-            <label asp-for="LoginID" class="control-label"></label>
-            <input asp-for="LoginID" class="form-control" />
-            <span asp-validation-for="LoginID" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="Password" class="control-label">Password</label>
-            <input id="Password" name="Password" type="password" class="form-control" />
-            @Html.ValidationMessage("EmptyPassword", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Login" class"btn btn-primary" />
-        </div>
-        @Html.ValidationMessage("LoginFailed", new { @class = "text-danger" })
-    </form>
-    
+    <div class="entry-form middle-align">
+
+        <h1>Login</h1>
+
+        <form asp-action="Login">
+
+            <div class="entry-form-item">
+                <p>Username:</p>
+                <input asp-for="LoginID" class="form-textbox" />
+            </div>
+
+            <div class="entry-form-item">
+                <p>Password:</p>
+                <input id="Password" name="Password" type="password" class="form-textbox" />
+            </div>
+
+            @Html.ValidationSummary(false, "", new { @class = "form-validation" })
+
+            <input type="submit" value="Login" class="form-btn btn-medium" />
+
+        </form>
+
+        <div class="form-alt-entry-prompt middle-align">
+			don't have an account? <a class="link-text" asp-controller="Login" asp-action="Login">create a new one</a> here.
+		</div>
+
+    </div>
+
+    <div class="graphics-entry-form">
+
+    </div>
+
 </div>

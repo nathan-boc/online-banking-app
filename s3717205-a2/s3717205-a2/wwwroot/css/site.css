@@ -5,13 +5,57 @@
 */
 
 html {
-  margin: 0 0 0;
-  padding: 0 0 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0 0 0;
-  padding: 0 0 0;
+  margin: 0;
+  padding: 0;
+}
+
+.main-container {
+    padding: 5% 8% 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*
+    Button Properties
+    -----------------
+*/
+
+.btn-large {
+    margin: 0 0 30px;
+    padding: 15px 40px;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+    border: 0;
+    border-radius: 7px;
+    background-color: #1147A0;
+    transition-duration: 0.2s;
+}
+
+.btn-medium {
+    margin: 0 0 30px;
+    padding: 6px 0;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+    border: 0;
+    border-radius: 7px;
+    background-color: #1147A0;
+    transition-duration: 0.2s;
+}
+
+.btn-large:hover, .btn-medium:hover {
+    background-color: #0b2c63;
+    transition-duration: 0.2s;
 }
 
 
@@ -22,14 +66,17 @@ body {
 
 .nav-item {
     height: 100%;
+    color: white;
     font-size: 20px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
+    transition-duration: 0.2s;
 }
 
 .nav-item:hover {
-    background-color: #3b3b3b;
     cursor: pointer;
+    background-color: #3b3b3b;
+    transition-duration: 0.2s;
 }
 
 .nav-item-container {
@@ -47,6 +94,7 @@ body {
 }
 
 .logo {
+    /* TEMP */
     font-size: 30px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
@@ -58,12 +106,81 @@ body {
 */
 
 .grid-navbar {
-    padding: 0 40px;
     background-color: #2F2F2F;
     display: grid;
     grid-template-columns: 15% auto 8% 8%;
     grid-template-rows: 80px;
 }
+
+.grid-entry-form-page {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+
+/* 
+    Entry Form Properties
+    ---------------------
+*/
+
+.entry-form {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto 50px;
+    padding: 6% 12%;
+    border-radius: 10px;
+    border-style: solid;
+
+}
+
+.entry-form h1 {
+    margin: 0 0 15%;
+    font-size: 26px;
+    font-weight: bold;
+    font-family: 'Sen', sans-serif;
+}
+
+.entry-form-item {
+    margin: 0 0 20px;
+    font-size: 16px;
+    font-family: 'Sen', sans-serif;
+}
+
+.entry-form-item p {
+    margin: 0;
+    padding: 0 5px;
+    text-align: left;
+}
+
+.form-textbox {
+    width: 100%;
+    height: 35px;
+    margin: 0 0 10px;
+    padding: 0 8px;
+    font-size: 16px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #EDEDED;
+}
+
+.form-alt-entry-prompt {
+  width: 50%;
+  min-width: 200px;
+  margin: 0 auto;
+}
+
+.form-btn {
+    width: 60%;
+    margin: 0 0 20%;
+}
+
+.form-validation {
+    color: red;
+    text-align: left;
+    margin: 0 0 50px;
+    list-style-image: url('../images/icon-circle-cross.svg');
+}
+
 
 /*
     Text Properties
@@ -76,15 +193,15 @@ body {
 
 h1 {
     padding: 0 0 50px;
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
 }
 
-.sign-in-prompt {
+.alt-entry-prompt {
     width: 15%;
     margin: 0 auto 0;
-    font-size: 16px;
+    font-size: 18px;
     font-family: 'Sen', sans-serif;
 }
 
@@ -94,39 +211,23 @@ h1 {
     text-decoration: underline;
 }
 
-/*
-    Button Properties
-    -----------------
-*/
 
-.btn-cta {
-    padding: 15px 40px;
-    margin: 0 0 70px;
-    color: white;
-    background-color: #1147A0;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: 'Sen', sans-serif;
-    border: 0;
-    border-radius: 7px;
-}
+
 
 /*
     Image Properties
     ----------------
 */
 
-
-
 .landing-hero {
-    width: 40%;
+    width: 25%;
     padding: 0 0 50px;
 }
 
-
-
-
-
+.graphics-entry-form {
+    background: green;
+    height: 400px;
+}
 
 
 @media (min-width: 768px) {
