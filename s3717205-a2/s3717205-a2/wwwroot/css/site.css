@@ -31,7 +31,7 @@ a {
     margin: 0 0 30px;
     padding: 15px 40px;
     color: white;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
     border: 0;
@@ -44,7 +44,7 @@ a {
     margin: 0 0 30px;
     padding: 6px 0;
     color: white;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
     border: 0;
@@ -67,7 +67,7 @@ a {
 .nav-item {
     height: 100%;
     color: white;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
     transition-duration: 0.2s;
@@ -95,7 +95,7 @@ a {
 
 .logo {
     /* TEMP */
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
 }
@@ -109,7 +109,7 @@ a {
     background-color: #2F2F2F;
     display: grid;
     grid-template-columns: 15% auto 8% 8%;
-    grid-template-rows: 80px;
+    grid-template-rows: 50px;
 }
 
 .grid-entry-form-page {
@@ -124,7 +124,7 @@ a {
 */
 
 .entry-form {
-    width: 80%;
+    width: 65%;
     max-width: 600px;
     margin: 0 auto 50px;
     padding: 6% 12%;
@@ -134,15 +134,15 @@ a {
 }
 
 .entry-form h1 {
-    margin: 0 0 15%;
-    font-size: 26px;
+    margin: 0 0 10%;
+    font-size: 20px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
 }
 
 .entry-form-item {
     margin: 0 0 20px;
-    font-size: 16px;
+    font-size: 12px;
     font-family: 'Sen', sans-serif;
 }
 
@@ -154,10 +154,9 @@ a {
 
 .form-textbox {
     width: 100%;
-    height: 35px;
-    margin: 0 0 10px;
-    padding: 0 8px;
-    font-size: 16px;
+    height: 30px;
+    padding: 0 6px;
+    font-size: 14px;
     border: 0;
     border-radius: 5px;
     background-color: #EDEDED;
@@ -165,35 +164,40 @@ a {
 
 .form-alt-entry-prompt {
   width: 50%;
-  min-width: 200px;
+  min-width: 150px;
   margin: 0 auto;
+  font-size: 12px;
 }
 
 .form-btn {
     width: 60%;
-    margin: 0 0 20%;
+    margin: 0 0 15%;
 }
 
-.form-validation {
+.form-validation li {
     color: red;
     text-align: left;
-    margin: 0 0 50px;
+    margin: 0 0 30px;
+    padding-left: 20px;
+    font-size: 12px;
     list-style-image: url('../images/icon-circle-cross.svg');
+    background: url('../images/icon-circle-cross.svg') no-repeat left -1px top 1px;
+    list-style: none;
 }
+
 
 
 /*
-    Text Properties
-    ---------------
+Text Properties
+---------------
 */
-
-.middle-align {
-    text-align: center;
-}
+    .middle-align {
+        text-align: center;
+    }
 
 h1 {
     padding: 0 0 50px;
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
     font-family: 'Sen', sans-serif;
 }
@@ -201,7 +205,7 @@ h1 {
 .alt-entry-prompt {
     width: 15%;
     margin: 0 auto 0;
-    font-size: 18px;
+    font-size: 12px;
     font-family: 'Sen', sans-serif;
 }
 
@@ -220,7 +224,7 @@ h1 {
 */
 
 .landing-hero {
-    width: 25%;
+    width: 20%;
     padding: 0 0 50px;
 }
 

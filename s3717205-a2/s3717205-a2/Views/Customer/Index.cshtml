@@ -1,10 +1,114 @@
 ﻿@model Customer
 
+<!-- IMPLEMENT A TOTAL BALANCE IN THE Customer MOdel and controller
+
+- When an account balance is updated, update the customers totalBalance field.
+-->
+
 @{
-	ViewData["Title"] = "MCBA Dashboard";
+	ViewData["Title"] = "Mekay Dashboard";
 }
 
-<h1>Welcome, @Model.Name</h1>
+@{
+	<!--THIS CODE TO BE MOVED TO CONTROLLER-->
+	decimal totalBalance = 0;
+
+	foreach(var account in Model.Accounts) {
+		totalBalance += account.Balance;
+	}
+
+	List<Transaction> allTransactions = new List<Transaction>;
+
+	foreach(var account in Model.Accounts) {
+		allTransactions.AddRange(account.Transactions);
+	}
+}
+
+<div class="summary-card">
+	<h1>Account Summary</h1>
+
+	<div class="grid-summary-card" >
+
+		<div class="summary-profile-icon">
+			<img src="icon-account.svg" />
+		</div>
+
+		<div class="summary-card-item">
+			<span class="subtitle">Account Holder Name</span>
+			<p>@Model.Name</p>
+		</div>
+
+		<div class="summary-card-item">
+			<span class="subtitle">Customer ID</span>
+			<p>@Model.CustomerID</p>
+		</div>
+
+		<div class="summary-card-balance">
+			<span class="subtitle-hero">Total Balance</span>
+			<h1 class="account-balance">$@totalBalance AUD</h1>
+		</div>
+
+	</div>
+</div>
+
+<div class="grid-summary-dashboard">
+
+	<div class="summary-transactions">
+		<h2>Recent Transactions</h2>
+
+		@{
+			<div class="grid-summary-transactions">
+
+				<span class="subtitle">Description</span>
+				<span class="subtitle">Date</span>
+				<span class="subtitle">Type</span>
+				<span class="subtitle">Amount</span>
+
+				if(allTransactions.Count == 0)
+				{
+					<!-- If there are no recent transactions -->
+					</div>
+					<p class="transactions-empty">There are no recent transactions.</p>
+				}
+				else
+				{
+					var recentTransactions = allTransactions.OrderByDescending(x => x.TransactionTimeUtc).Take(10).ToList();
+
+					foreach(var transaction in recentTransactions)
+					{
+						<div><p class="transaction-data">@transaction.Comment</p></div>
+						<div><p class="transaction-data">@transaction.TransactionTimeUtc.ToLocalTime().Date</p></div>
+
+						<!-- TODO based on type, produce a different coloured box -->
+						<div class="transaction-type">@transaction.TransactionType</div>
+
+						<!-- Modify amount to have negative sign if its a transfer or withdrawal-->
+						if(transaction.TransactionType == 'D' || (transaction.TransactionType == 'T' && transaction.DestinationAccountNumber == null))
+						{
+							<div class="transaction-positive"><p class="transaction-data">@transaction.Amount</p></div>
+						}
+						else
+						{
+							<div class="transaction-negative"><p class="transaction-data">-@transaction.Amount</p></div>
+						}
+
+					}
+				</div>
+				}
+			}
+
+	</div>
+
+	<div class="summary-accounts">
+		<h2>My Accounts</h2> 
+
+		<div class="grid-summary-accounts">
+
+		</div>
+
+	</div>
+
+</div>
 
 <div>
 	<h4>Your Details:</h4>
